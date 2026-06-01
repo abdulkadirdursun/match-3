@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Match3.Core.Tiles
+namespace Match3.Core.BoardItems
 {
-    public class Tile : MonoBehaviour
+    public class BoardItem : MonoBehaviour
     {
     }
 }

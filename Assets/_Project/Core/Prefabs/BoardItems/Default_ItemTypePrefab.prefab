@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4237736352447351119}
   - component: {fileID: 7753914182373127313}
   m_Layer: 6
-  m_Name: Default_TileTypePrefab
+  m_Name: Default_ItemTypePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7753914182373127313
 MonoBehaviour:

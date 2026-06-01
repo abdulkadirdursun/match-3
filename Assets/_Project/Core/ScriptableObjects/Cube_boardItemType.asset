@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b6fa86db89f48f8b2ed384743414d5c, type: 3}
-  m_Name: Cube_TileType
+  m_Name: Cube_boardItemType
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.TileTypeData
   tileName: Cube
   prefab: {fileID: 7291252003384995313, guid: e2872b10e530b854ab7444136263a338, type: 3}
