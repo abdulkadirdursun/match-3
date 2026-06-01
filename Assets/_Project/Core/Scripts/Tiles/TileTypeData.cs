@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Match3.Core
+namespace Match3.Core.Tiles
 {
     [CreateAssetMenu(fileName = "Tile Type", menuName = "Match 3/Core/Tile Type")]
     public class TileTypeData : ScriptableObject
