@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b6fa86db89f48f8b2ed384743414d5c, type: 3}
-  m_Name: Circle_BoardItemType
+  m_Name: BlueSquare_BoardItemData
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.TileTypeData
-  tileName: Circle
-  prefab: {fileID: 7291252003384995313, guid: fc2be3278464fa247b8d5d2f259fb95b, type: 3}
+  tileName: Blue Square
+  itemSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  representingColor: {r: 0.1764706, g: 0.1764706, b: 1, a: 1}
+  setRendererColor: 1

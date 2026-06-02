@@ -509,9 +509,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26c37fc7e2d4cd3a050b352fd0d90c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardItems.BoardItemSpawner
+  boardItemPrefab: {fileID: 7753914182373127313, guid: 462f4e9b358e4ef429b93857512096a0, type: 3}
   boardItems:
   - {fileID: 11400000, guid: a56a767b740de5b4e9c915da4f098410, type: 2}
   - {fileID: 11400000, guid: eec5fa3ebdf604c408a8825e13da5e3a, type: 2}
+  - {fileID: 11400000, guid: 3346c6cfc74f67b41bca2f6ed9643c12, type: 2}
 --- !u!4 &1648202852
 Transform:
   m_ObjectHideFlags: 0

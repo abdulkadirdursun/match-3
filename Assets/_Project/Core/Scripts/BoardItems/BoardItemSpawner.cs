@@ -6,6 +6,7 @@ namespace Match3.Core.BoardItems
 {
     public class BoardItemSpawner : MonoBehaviour
     {
+        [SerializeField] private BoardItem boardItemPrefab;
         [SerializeField] private BoardItemData[] boardItems;
 
         private BoardItem[] _spawnedItems;
@@ -17,8 +18,8 @@ namespace Match3.Core.BoardItems
 
             for (int i = 0; i < cells.Length; i++)
             {
-                var newBoardItemType = boardItems.Random();
-                var newBoardItem = Instantiate(newBoardItemType.Prefab, transform);
+                var newBoardItem = Instantiate(boardItemPrefab, transform);
+                newBoardItem.Initialize(boardItems.Random());
                 var cell = cells[i];
                 cell.SetItem(newBoardItem);
                 _spawnedItems[i] = newBoardItem;
