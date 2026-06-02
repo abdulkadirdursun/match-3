@@ -1,41 +1,43 @@
-﻿using Match3.Core.GameBoard;
-using Match3.Core.Utilities;
+﻿using Match3.Core.Utilities;
 using UnityEngine;
 
 namespace Match3.Core.BoardItems
 {
     public class BoardItemSpawner : MonoBehaviour
     {
+        [SerializeField] private CurrentGameBoardData currentGameBoardData;
         [SerializeField] private BoardItem boardItemPrefab;
-        [SerializeField] private BoardItemData[] boardItems;
+        [SerializeField] private BoardItemData[] boardItemDataArray;
 
-        private BoardItem[] _spawnedItems;
-
-        public void SpawnBoardItems(BoardCell[] cells) //temp method
+        private void SpawnBoardItems() //temp method
         {
-            ClearBoardItems();
-            _spawnedItems = new BoardItem[cells.Length];
+            var cells = currentGameBoardData.BoardCells;
+            var boardItems = new BoardItem[cells.Length];
 
             for (int i = 0; i < cells.Length; i++)
             {
                 var newBoardItem = Instantiate(boardItemPrefab, transform);
-                newBoardItem.Initialize(boardItems.Random());
+                newBoardItem.Initialize(boardItemDataArray.Random());
                 var cell = cells[i];
                 cell.SetItem(newBoardItem);
-                _spawnedItems[i] = newBoardItem;
+                boardItems[i] = newBoardItem;
             }
+
+            currentGameBoardData.SetBoardItems(boardItems);
         }
 
-        private void ClearBoardItems()
+        #region OnEnable
+
+        private void OnEnable()
         {
-            if (_spawnedItems == null) return;
-
-            for (int i = _spawnedItems.Length - 1; i >= 0; i--)
-            {
-                Destroy(_spawnedItems[i].gameObject);
-            }
-
-            _spawnedItems = null;
+            currentGameBoardData.BoardSetComplete += SpawnBoardItems;
         }
+
+        private void OnDisable()
+        {
+            currentGameBoardData.BoardSetComplete -= SpawnBoardItems;
+        }
+
+        #endregion
     }
 }
