@@ -46,13 +46,19 @@ namespace Match3.Core
             var secondBoardItem = secondCell.BoardItem;
             var firstCellMoveTween = firstCell.SetItem(secondBoardItem);
             var secondCellMoveTween = secondCell.SetItem(firstBoardItem);
+            playerInputHandler.SetActivity(false);
             await Task.WhenAll(firstCellMoveTween.AsyncWaitForCompletion(), secondCellMoveTween.AsyncWaitForCompletion());
+
             var firstCellMatched = matchController.CheckForMatch(firstCell.Coordinates);
             var secondCellMatched = matchController.CheckForMatch(secondCell.Coordinates);
-            if (firstCellMatched || secondCellMatched) return;
-            firstCellMoveTween = firstCell.SetItem(firstBoardItem);
-            secondCellMoveTween = secondCell.SetItem(secondBoardItem);
-            await Task.WhenAll(firstCellMoveTween.AsyncWaitForCompletion(), secondCellMoveTween.AsyncWaitForCompletion());
+            if (!firstCellMatched && !secondCellMatched)
+            {
+                firstCellMoveTween = firstCell.SetItem(firstBoardItem);
+                secondCellMoveTween = secondCell.SetItem(secondBoardItem);
+                await Task.WhenAll(firstCellMoveTween.AsyncWaitForCompletion(), secondCellMoveTween.AsyncWaitForCompletion());
+            }
+
+            playerInputHandler.SetActivity(true);
         }
 
         private void CreateTheBoard()
