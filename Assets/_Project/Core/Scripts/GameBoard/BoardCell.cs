@@ -14,6 +14,7 @@ namespace Match3.Core
         public void ClearInPlace()
         {
             BoardItem.Destroy(); //Temp method call
+            BoardItem = null;
         }
 
         public bool TryGetBoardItemData(out BoardItemData boardItemData)
