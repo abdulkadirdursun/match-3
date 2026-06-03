@@ -48,6 +48,11 @@ namespace Match3.InputSystem
             _gameplayActions.Click.canceled -= OnPointerUp;
         }
 
+        private void OnDestroy()
+        {
+            _playerActions.Dispose();
+        }
+
         #endregion
     }
 }
