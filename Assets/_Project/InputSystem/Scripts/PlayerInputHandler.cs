@@ -12,6 +12,17 @@ namespace Match3.InputSystem
         public event Action PointerDown;
         public event Action PointerUp;
 
+        public void SetActivity(bool value)
+        {
+            if (value)
+            {
+                _playerActions?.Enable();
+                return;
+            }
+
+            _playerActions?.Disable();
+        }
+
         private void Initialize()
         {
             _playerActions = new PlayerActions();

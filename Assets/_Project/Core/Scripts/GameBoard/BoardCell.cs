@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace Match3.Core
@@ -40,11 +41,10 @@ namespace Match3.Core
             cellTransform.position = position;
         }
 
-        public void SetItem(BoardItem boardItem)
+        public Tween SetItem(BoardItem boardItem)
         {
-            this.BoardItem = boardItem;
-            if (this.BoardItem == null) return;
-            this.BoardItem.transform.position = cellTransform.position; //Temp
+            BoardItem = boardItem;
+            return BoardItem.MoveToPos(cellTransform.position, 0.2f);
         }
 
 

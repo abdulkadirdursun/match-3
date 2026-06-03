@@ -1,9 +1,13 @@
+using System.Threading.Tasks;
+using DG.Tweening;
+using Match3.InputSystem;
 using UnityEngine;
 
 namespace Match3.Core
 {
     public class GameBoardController : MonoBehaviour
     {
+        [SerializeField] private PlayerInputHandler playerInputHandler;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
         [SerializeField] private MatchController matchController;
         [SerializeField] private BoardConfig boardConfig;
@@ -24,7 +28,7 @@ namespace Match3.Core
             var coordY = Mathf.FloorToInt((worldPos.y + halfExtendY) / cellSize);
             return TryToGetCellAt(new Vector2Int(coordX, coordY), out boardCell);
         }
-        
+
         public bool TryToGetCellAt(Vector2Int coord, out BoardCell boardCell)
         {
             boardCell = null;
@@ -36,17 +40,19 @@ namespace Match3.Core
             return true;
         }
 
-        public void SwapItems(BoardCell firstCell, BoardCell secondCell)
+        public async void SwapItems(BoardCell firstCell, BoardCell secondCell)
         {
             var firstBoardItem = firstCell.BoardItem;
             var secondBoardItem = secondCell.BoardItem;
-            firstCell.SetItem(secondBoardItem);
-            secondCell.SetItem(firstBoardItem);
+            var firstCellMoveTween = firstCell.SetItem(secondBoardItem);
+            var secondCellMoveTween = secondCell.SetItem(firstBoardItem);
+            await Task.WhenAll(firstCellMoveTween.AsyncWaitForCompletion(), secondCellMoveTween.AsyncWaitForCompletion());
             var firstCellMatched = matchController.CheckForMatch(firstCell.Coordinates);
             var secondCellMatched = matchController.CheckForMatch(secondCell.Coordinates);
             if (firstCellMatched || secondCellMatched) return;
-            firstCell.SetItem(firstBoardItem);
-            secondCell.SetItem(secondBoardItem);
+            firstCellMoveTween = firstCell.SetItem(firstBoardItem);
+            secondCellMoveTween = secondCell.SetItem(secondBoardItem);
+            await Task.WhenAll(firstCellMoveTween.AsyncWaitForCompletion(), secondCellMoveTween.AsyncWaitForCompletion());
         }
 
         private void CreateTheBoard()
