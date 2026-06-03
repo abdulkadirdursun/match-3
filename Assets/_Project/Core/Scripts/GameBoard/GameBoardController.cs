@@ -5,6 +5,7 @@ namespace Match3.Core
     public class GameBoardController : MonoBehaviour
     {
         [SerializeField] private BoardItemSpawner boardItemSpawner;
+        [SerializeField] private MatchController matchController;
         [SerializeField] private BoardConfig boardConfig;
         [SerializeField] private BoardCell boardCellPrefab;
         [SerializeField] private Vector2Int boardSize = new Vector2Int(8, 8); //temp
@@ -35,6 +36,11 @@ namespace Match3.Core
             var secondBoardItem = secondCell.BoardItem;
             firstCell.SetItem(secondBoardItem);
             secondCell.SetItem(firstBoardItem);
+            var firstCellMatched = matchController.CheckForMatch(firstCell.Coordinates);
+            var secondCellMatched = matchController.CheckForMatch(secondCell.Coordinates);
+            if (firstCellMatched || secondCellMatched) return;
+            firstCell.SetItem(firstBoardItem);
+            secondCell.SetItem(secondBoardItem);
         }
 
         private void CreateTheBoard()
