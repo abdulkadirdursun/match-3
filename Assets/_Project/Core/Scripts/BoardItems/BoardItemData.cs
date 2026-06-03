@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Match3.Core.BoardItems
+namespace Match3.Core
 {
     [CreateAssetMenu(fileName = "BoardItemData", menuName = "Match 3/Core/Board Item Data")]
     public class BoardItemData : ScriptableObject
