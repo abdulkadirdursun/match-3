@@ -1,4 +1,4 @@
-﻿namespace Match3.Core.Utilities
+﻿namespace Match3.Core.Helpers
 {
     public static class ArrayExtensions
     {

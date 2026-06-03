@@ -4,9 +4,9 @@ namespace Match3.Core.GameBoard
 {
     public class GameBoardController : MonoBehaviour
     {
-        [SerializeField] private CurrentGameBoardData currentGameBoardData;
         [SerializeField] private Vector2Int boardSize = new Vector2Int(8, 8);
         [SerializeField] private float cellSize = 1f;
+        [SerializeField] private BoardItemSpawner boardItemSpawner;
         [SerializeField] private BoardCell boardCellPrefab;
 
         private void CreateTheBoard()
@@ -28,7 +28,7 @@ namespace Match3.Core.GameBoard
                 }
             }
 
-            currentGameBoardData.SetBoard(boardSize, cells);
+            boardItemSpawner.SpawnBoardItems(BoardCells);
         }
         
 
