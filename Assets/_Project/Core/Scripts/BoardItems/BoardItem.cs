@@ -9,6 +9,7 @@ namespace Match3.Core
 
         public void Initialize(BoardItemData boardItemData)
         {
+            BoardItemData = boardItemData;
             spriteRenderer.sprite = boardItemData.ItemSprite;
             spriteRenderer.color = boardItemData.SetRendererColor ? boardItemData.RepresentingColor : Color.white;
         }
