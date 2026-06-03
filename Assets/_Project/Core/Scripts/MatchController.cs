@@ -6,7 +6,6 @@ namespace Match3.Core
     public class MatchController : MonoBehaviour
     {
         [SerializeField] private GameBoardController gameBoardController;
-        [SerializeField] private int minMatch = 3;
 
         public bool CheckForMatch(Vector2Int originCoord)
         {
@@ -15,10 +14,10 @@ namespace Match3.Core
 
             Vector2Int[] directions = new Vector2Int[]
             {
-                new(0, 1), //up
-                new(0, -1), //down
-                new(1, 0), //right
-                new(-1, 0) //left
+                Vector2Int.up, //up
+                Vector2Int.down, //down
+                Vector2Int.right, //right
+                Vector2Int.left //left
             };
 
             var matches = new HashSet<BoardCell>();
@@ -44,7 +43,7 @@ namespace Match3.Core
                 }
             }
 
-            if (matches.Count < minMatch) return false;
+            if (!IsMatchValid(matches)) return false;
 
             foreach (var matchedCell in matches)
             {
@@ -52,6 +51,21 @@ namespace Match3.Core
             }
 
             return true;
+        }
+
+        private bool IsMatchValid(HashSet<BoardCell> matchedCells)
+        {
+            var coords = new HashSet<Vector2Int>();
+            foreach (var cells in matchedCells) coords.Add(cells.Coordinates);
+            //ContainsStraightLine
+            foreach (var coord in coords)
+            {
+                if (coords.Contains(coord + Vector2Int.left) && coords.Contains(coord + Vector2Int.right)
+                    || coords.Contains(coord + Vector2Int.up) && coords.Contains(coord + Vector2Int.down))
+                    return true;
+            }
+
+            return false;
         }
     }
 }
