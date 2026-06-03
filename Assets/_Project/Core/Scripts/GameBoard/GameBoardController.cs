@@ -13,7 +13,7 @@ namespace Match3.Core
         public BoardCell[,] BoardCells { get; private set; }
         public Vector2Int BoardSize => boardSize;
 
-        public bool TryToGetCellAtCoord(Vector2 worldPos, out BoardCell boardCell)
+        public bool TryToGetCellAt(Vector2 worldPos, out BoardCell boardCell)
         {
             boardCell = null;
             var cellSize = boardConfig.CellSize;
@@ -22,11 +22,17 @@ namespace Match3.Core
 
             var coordX = Mathf.FloorToInt((worldPos.x + halfExtendX) / cellSize);
             var coordY = Mathf.FloorToInt((worldPos.y + halfExtendY) / cellSize);
+            return TryToGetCellAt(new Vector2Int(coordX, coordY), out boardCell);
+        }
+        
+        public bool TryToGetCellAt(Vector2Int coord, out BoardCell boardCell)
+        {
+            boardCell = null;
 
-            if (coordX < 0 || coordX >= boardSize.x || coordY < 0 || coordY >= boardSize.y)
+            if (coord.x < 0 || coord.x >= boardSize.x || coord.y < 0 || coord.y >= boardSize.y)
                 return false;
 
-            boardCell = BoardCells[coordX, coordY];
+            boardCell = BoardCells[coord.x, coord.y];
             return true;
         }
 

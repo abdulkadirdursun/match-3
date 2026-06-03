@@ -8,6 +8,7 @@ namespace Match3.Core
 
         public BoardItem BoardItem { get; private set; }
         public Vector2Int Coordinates { get; private set; }
+        public Vector3 WorldPos => cellTransform.position;
 
         public bool HasBoardItem => BoardItem != null;
 

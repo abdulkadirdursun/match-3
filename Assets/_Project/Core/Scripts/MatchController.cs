@@ -10,9 +10,9 @@ namespace Match3.Core
         public bool CheckForMatch(Vector2Int originCoord)
         {
             var originCell = gameBoardController.BoardCells[originCoord.x, originCoord.y];
-            if (originCell == null || !originCell.TryGetBoardItemData(out var targetItemData)) return false;
+            if (!originCell || !originCell.TryGetBoardItemData(out var targetItemData)) return false;
 
-            Vector2Int[] directions = new Vector2Int[]
+            Vector2Int[] directions =
             {
                 Vector2Int.up, //up
                 Vector2Int.down, //down

@@ -1,3 +1,4 @@
+using Match3.Core.Helpers;
 using Match3.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,14 +15,14 @@ namespace Match3.Core
         private bool _dragging;
         private float _timePassed;
         private BoardCell _firstBoardCell;
-        private float _cameraDistance;
+        private float _pointerPosZ;
 
         private void StartItemDrag()
         {
             if (Pointer.current == null) return;
             var clickPosition = Pointer.current.position.ReadValue();
-            var worldPos = mainCamera.ScreenToWorldPoint(new Vector3(clickPosition.x, clickPosition.y, _cameraDistance));
-            if (!gameBoardController.TryToGetCellAtCoord(worldPos, out _firstBoardCell)
+            var worldPos = mainCamera.ScreenToWorldPoint(new Vector3(clickPosition.x, clickPosition.y, _pointerPosZ));
+            if (!gameBoardController.TryToGetCellAt(worldPos, out _firstBoardCell)
                 || !_firstBoardCell.HasBoardItem) return;
             _dragging = true;
             _timePassed = 0f;
@@ -33,12 +34,32 @@ namespace Match3.Core
             _firstBoardCell = null;
         }
 
+        private bool TryGetAdjacentCell(Vector3 pointerPos, out BoardCell adjacentCell)
+        {
+            pointerPos.z = _pointerPosZ;
+            var pointerWorldPos = mainCamera.ScreenToWorldPoint(pointerPos);
+            if (gameBoardController.TryToGetCellAt(pointerWorldPos, out adjacentCell)
+                && adjacentCell == _firstBoardCell) return false;
+            
+            if (adjacentCell != null)
+            {
+                if (_firstBoardCell.IsAdjacentTo(adjacentCell))
+                    return true;
+
+                //Get Adjacent cell at same direction
+                var adjacentCoord = _firstBoardCell.GetDirection(adjacentCell) + _firstBoardCell.Coordinates;
+                return gameBoardController.TryToGetCellAt(adjacentCoord, out adjacentCell);
+            }
+
+            return false;
+        }
+
         #region MonoBehaviour Methods
 
         private void Awake()
         {
             if (mainCamera == null) mainCamera = Camera.main;
-            _cameraDistance -= mainCamera.transform.position.z;
+            _pointerPosZ = Mathf.Abs(mainCamera.transform.position.z);
         }
 
         private void OnEnable()
@@ -54,13 +75,10 @@ namespace Match3.Core
             if (_timePassed < checkInterval) return;
             _timePassed = 0f;
             var pointerPosition = Pointer.current.position.ReadValue();
-            var worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(pointerPosition.x, pointerPosition.y, _cameraDistance));
-            var hasCellAtPosition = gameBoardController.TryToGetCellAtCoord(worldPosition, out var hoveringCell);
-            if (!hasCellAtPosition
-                || hoveringCell == _firstBoardCell
-                || !hoveringCell.HasBoardItem) return;
+            if (!TryGetAdjacentCell(pointerPosition, out var adjacentCell)
+                || !adjacentCell.HasBoardItem) return;
 
-            gameBoardController.SwapItems(_firstBoardCell, hoveringCell);
+            gameBoardController.SwapItems(_firstBoardCell, adjacentCell);
             StopItemDrag();
         }
 
