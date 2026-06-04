@@ -5,11 +5,12 @@ namespace Match3.Core
 {
     public class MatchController : MonoBehaviour
     {
-        [SerializeField] private GameBoardController gameBoardController;
+        [SerializeField] private GameBoardData gameBoardData;
+        [SerializeField] private GameplayData gameplayData;
 
         public bool CheckForMatch(Vector2Int originCoord)
         {
-            var originCell = gameBoardController.BoardCells[originCoord.x, originCoord.y];
+            if (!gameBoardData.TryGetBoardCell(originCoord, out var originCell)) return false;
             if (!originCell || !originCell.TryGetBoardItemData(out var targetItemData)) return false;
 
             Vector2Int[] directions =
@@ -19,6 +20,8 @@ namespace Match3.Core
                 Vector2Int.right, //right
                 Vector2Int.left //left
             };
+            
+            var boardSize = gameplayData.LevelData.BoardSize;
 
             var matches = new HashSet<BoardCell>();
             var visited = new HashSet<Vector2Int>();
@@ -32,11 +35,11 @@ namespace Match3.Core
                 for (int i = 0; i < directions.Length; i++)
                 {
                     var neighborCoord = currentCell.Coordinates + directions[i];
-                    var inBound = neighborCoord.x >= 0 && neighborCoord.x < gameBoardController.BoardSize.x &&
-                                  neighborCoord.y >= 0 && neighborCoord.y < gameBoardController.BoardSize.y;
-                    if (!inBound ||
-                        visited.Contains(neighborCoord)) continue;
-                    var neighborCell = gameBoardController.BoardCells[neighborCoord.x, neighborCoord.y];
+                    var inBound = neighborCoord.x >= 0 && neighborCoord.x < boardSize.x &&
+                                  neighborCoord.y >= 0 && neighborCoord.y < boardSize.y;
+                    if (!inBound
+                        || visited.Contains(neighborCoord)
+                        || !gameBoardData.TryGetBoardCell(neighborCoord, out var neighborCell)) continue;
                     if (!neighborCell.TryGetBoardItemData(out var boardItemData) || boardItemData != targetItemData) continue;
                     visited.Add(neighborCoord);
                     lookUp.Enqueue(neighborCell);

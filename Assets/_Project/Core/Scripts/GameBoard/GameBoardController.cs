@@ -8,38 +8,8 @@ namespace Match3.Core
     public class GameBoardController : MonoBehaviour
     {
         [SerializeField] private PlayerInputHandler playerInputHandler;
-        [SerializeField] private BoardItemSpawner boardItemSpawner;
         [SerializeField] private MatchController matchController;
-        [SerializeField] private BoardConfig boardConfig;
-        [SerializeField] private BoardCell boardCellPrefab;
-        [SerializeField] private Vector2Int boardSize = new Vector2Int(8, 8); //temp
-
-        public BoardCell[,] BoardCells { get; private set; }
-        public Vector2Int BoardSize => boardSize;
-
-        public bool TryToGetCellAt(Vector2 worldPos, out BoardCell boardCell)
-        {
-            boardCell = null;
-            var cellSize = boardConfig.CellSize;
-            var halfExtendX = boardSize.x * cellSize * 0.5f;
-            var halfExtendY = boardSize.y * cellSize * 0.5f;
-
-            var coordX = Mathf.FloorToInt((worldPos.x + halfExtendX) / cellSize);
-            var coordY = Mathf.FloorToInt((worldPos.y + halfExtendY) / cellSize);
-            return TryToGetCellAt(new Vector2Int(coordX, coordY), out boardCell);
-        }
-
-        public bool TryToGetCellAt(Vector2Int coord, out BoardCell boardCell)
-        {
-            boardCell = null;
-
-            if (coord.x < 0 || coord.x >= boardSize.x || coord.y < 0 || coord.y >= boardSize.y)
-                return false;
-
-            boardCell = BoardCells[coord.x, coord.y];
-            return true;
-        }
-
+        
         public async void SwapItems(BoardCell firstCell, BoardCell secondCell)
         {
             var firstBoardItem = firstCell.BoardItem;
@@ -60,39 +30,5 @@ namespace Match3.Core
 
             playerInputHandler.SetActivity(true);
         }
-
-        private void CreateTheBoard()
-        {
-            BoardCells = new BoardCell[boardSize.x, boardSize.y];
-            var halfExtendX = (boardSize.x - 1) * boardConfig.CellSize * 0.5f;
-            var halfExtendY = (boardSize.y - 1) * boardConfig.CellSize * 0.5f;
-
-            for (int y = 0; y < boardSize.y; y++)
-            {
-                for (int x = 0; x < boardSize.x; x++)
-                {
-                    var localPosX = (x * boardConfig.CellSize) - halfExtendX;
-                    var localPosY = (y * boardConfig.CellSize) - halfExtendY;
-                    var cell = Instantiate(boardCellPrefab, transform);
-#if UNITY_EDITOR || DEBUG_BUILD
-                    cell.name = $"BoardCell ({x}, {y})";
-#endif
-                    cell.Initialize(new Vector3(localPosX, localPosY, 0f), new Vector2Int(x, y), boardConfig.CellSize);
-                    BoardCells[x, y] = cell;
-                }
-            }
-
-            boardItemSpawner.SpawnBoardItems(BoardCells);
-        }
-
-
-        #region MonoBehaviour Methods
-
-        private void Start()
-        {
-            CreateTheBoard();
-        }
-
-        #endregion
     }
 }

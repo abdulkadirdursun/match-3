@@ -7,7 +7,7 @@ namespace Match3.Core
 {
     public class ClickAndDragHandler : MonoBehaviour
     {
-        [SerializeField] private GameBoardController gameBoardController;
+        [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private PlayerInputHandler playerInputHandler;
         [SerializeField] private float checkInterval = 0.1f;
@@ -22,7 +22,7 @@ namespace Match3.Core
             if (Pointer.current == null) return;
             var clickPosition = Pointer.current.position.ReadValue();
             var worldPos = mainCamera.ScreenToWorldPoint(new Vector3(clickPosition.x, clickPosition.y, _pointerPosZ));
-            if (!gameBoardController.TryToGetCellAt(worldPos, out _firstBoardCell)
+            if (!gameBoardData.TryGetBoardCell(worldPos, out _firstBoardCell)
                 || !_firstBoardCell.HasBoardItem) return;
             _dragging = true;
             _timePassed = 0f;
@@ -38,9 +38,9 @@ namespace Match3.Core
         {
             pointerPos.z = _pointerPosZ;
             var pointerWorldPos = mainCamera.ScreenToWorldPoint(pointerPos);
-            if (gameBoardController.TryToGetCellAt(pointerWorldPos, out adjacentCell)
+            if (gameBoardData.TryGetBoardCell(pointerWorldPos, out adjacentCell)
                 && adjacentCell == _firstBoardCell) return false;
-            
+
             if (adjacentCell != null)
             {
                 if (_firstBoardCell.IsAdjacentTo(adjacentCell))
@@ -48,7 +48,7 @@ namespace Match3.Core
 
                 //Get Adjacent cell at same direction
                 var adjacentCoord = _firstBoardCell.GetDirection(adjacentCell) + _firstBoardCell.Coordinates;
-                return gameBoardController.TryToGetCellAt(adjacentCoord, out adjacentCell);
+                return gameBoardData.TryGetBoardCell(adjacentCoord, out adjacentCell);
             }
 
             return false;
@@ -78,7 +78,7 @@ namespace Match3.Core
             if (!TryGetAdjacentCell(pointerPosition, out var adjacentCell)
                 || !adjacentCell.HasBoardItem) return;
 
-            gameBoardController.SwapItems(_firstBoardCell, adjacentCell);
+            //TODO: gameBoardController.SwapItems(_firstBoardCell, adjacentCell);
             StopItemDrag();
         }
 
