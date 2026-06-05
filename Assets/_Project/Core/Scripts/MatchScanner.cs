@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Match3.Core
 {
-    public class MatchResolver : MonoBehaviour
+    public class MatchScanner : MonoBehaviour
     {
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private GameplayData gameplayData;

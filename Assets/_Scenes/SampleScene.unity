@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoard.GameBoardController
   playerInputHandler: {fileID: 795973412}
-  matchResolver: {fileID: 1401543846}
+  matchScanner: {fileID: 1401543846}
 --- !u!4 &386429547
 Transform:
   m_ObjectHideFlags: 0

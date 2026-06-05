@@ -8,7 +8,7 @@ namespace Match3.Core
     public class GameBoardController : MonoBehaviour
     {
         [SerializeField] private PlayerInputHandler playerInputHandler;
-        [SerializeField] private MatchResolver matchResolver;
+        [SerializeField] private MatchScanner matchScanner;
         
         public async void SwapItems(BoardCell firstCell, BoardCell secondCell)
         {
@@ -19,8 +19,8 @@ namespace Match3.Core
             playerInputHandler.SetActivity(false);
             await Task.WhenAll(firstCellMoveTween.AsyncWaitForCompletion(), secondCellMoveTween.AsyncWaitForCompletion());
 
-            var firstCellMatched = matchResolver.HasMatchAt(firstCell.Coordinates);
-            var secondCellMatched = matchResolver.HasMatchAt(secondCell.Coordinates);
+            var firstCellMatched = matchScanner.HasMatchAt(firstCell.Coordinates);
+            var secondCellMatched = matchScanner.HasMatchAt(secondCell.Coordinates);
             if (!firstCellMatched && !secondCellMatched)
             {
                 firstCellMoveTween = firstCell.SetItem(firstBoardItem);
