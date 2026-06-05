@@ -21,7 +21,7 @@ namespace Match3.Core
 
         public bool TryGetBoardItemData(out BoardItemData boardItemData)
         {
-            if (BoardItem == null)
+            if (!HasBoardItem)
             {
                 Debug.Log($"<color=cyan>[BoardCell]</color> No board item on the Cell at ({Coordinates})!");
                 boardItemData = null;

@@ -285,12 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc312a41a86c7945841a304e132e594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoard.GameBoardController
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   playerInputHandler: {fileID: 795973412}
-  boardItemSpawner: {fileID: 1648202851}
-  matchController: {fileID: 1401543846}
-  boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
-  boardCellPrefab: {fileID: 7894996980349019388, guid: 6254faddd1e5aba41ad4a593d88dd38d, type: 3}
+  matchResolver: {fileID: 1401543846}
 --- !u!4 &386429547
 Transform:
   m_ObjectHideFlags: 0
