@@ -305,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardItems.BoardItemSpawner
   gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
   boardItemDataArray:
   - {fileID: 11400000, guid: a56a767b740de5b4e9c915da4f098410, type: 2}
   - {fileID: 11400000, guid: 03f8c254912c4b543ab0a9bc4a890cc8, type: 2}
@@ -361,6 +362,7 @@ MonoBehaviour:
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
   gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   matchScanner: {fileID: 386429549}
+  boardItemSpawner: {fileID: 386429548}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

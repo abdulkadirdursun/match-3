@@ -11,6 +11,7 @@ namespace Match3.Core
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private GameplayData gameplayData;
         [SerializeField] private MatchScanner matchScanner;
+        [SerializeField] private BoardItemSpawner boardItemSpawner;
 
         private const int MaxMatchCheckIteration = 64;
 
@@ -40,6 +41,7 @@ namespace Match3.Core
 
         public async void ResolveMatches()
         {
+            var tweens = new List<Tween>();
             for (int i = 0; i < MaxMatchCheckIteration; i++)
             {
                 var matches = matchScanner.FindAllMatches();
@@ -47,11 +49,11 @@ namespace Match3.Core
                 foreach (var cell in matches)
                     cell.ClearInPlace();
 
-                var tweens = CollapseBoard();
+                tweens.AddRange(CollapseBoard());
+                tweens.AddRange(boardItemSpawner.RefillEmptyCells());
                 if (tweens.Count > 0)
                     await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
             }
-
         }
 
         private List<Tween> CollapseBoard()
@@ -74,7 +76,7 @@ namespace Match3.Core
                             || !readCell.HasBoardItem) continue;
 
                         var item = readCell.DetachItem();
-                        var tween = item.MoveToPos(writeCell.WorldPos, 0.2f); // TODO: Temp value for time
+                        var tween = item.MoveToPos(writeCell.WorldPos, 0.2f).SetEase(Ease.InOutSine); // TODO: Temp value for time
                         writeCell.SetItem(item);
                         tweens.Add(tween);
                     }
