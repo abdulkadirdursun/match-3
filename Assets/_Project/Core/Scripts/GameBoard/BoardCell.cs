@@ -18,6 +18,13 @@ namespace Match3.Core
             BoardItem = null;
         }
 
+        public BoardItem DetachItem()
+        {
+            var item = BoardItem;
+            BoardItem = null;
+            return item;
+        }
+
         public bool TryGetBoardItemData(out BoardItemData boardItemData)
         {
             if (!HasBoardItem)

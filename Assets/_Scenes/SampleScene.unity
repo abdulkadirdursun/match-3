@@ -358,6 +358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95892e5e2f4e445e8bc3ef4b13cbb1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardResolver
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   matchScanner: {fileID: 386429549}
 --- !u!1 &410087039
 GameObject:

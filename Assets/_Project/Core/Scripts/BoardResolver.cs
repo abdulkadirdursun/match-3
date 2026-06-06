@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,7 +8,11 @@ namespace Match3.Core
 {
     public class BoardResolver : MonoBehaviour
     {
+        [SerializeField] private GameBoardData gameBoardData;
+        [SerializeField] private GameplayData gameplayData;
         [SerializeField] private MatchScanner matchScanner;
+
+        private const int MaxMatchCheckIteration = 64;
 
         public async void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
@@ -34,10 +40,50 @@ namespace Match3.Core
 
         public async void ResolveMatches()
         {
-            var matches = matchScanner.FindAllMatches();
-            if (matches.Count == 0) return;
-            foreach (var cell in matches)
-                cell.ClearInPlace();
+            for (int i = 0; i < MaxMatchCheckIteration; i++)
+            {
+                var matches = matchScanner.FindAllMatches();
+                if (matches.Count == 0) break;
+                foreach (var cell in matches)
+                    cell.ClearInPlace();
+
+                var tweens = CollapseBoard();
+                if (tweens.Count > 0)
+                    await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
+            }
+
+        }
+
+        private List<Tween> CollapseBoard()
+        {
+            var tweens = new List<Tween>();
+            var boardSize = gameplayData.LevelData.BoardSize;
+
+            for (int x = 0; x < boardSize.x; x++)
+            {
+                int writeY = 0;
+
+                for (int readY = 0; readY < boardSize.y; readY++)
+                {
+                    if (readY <= writeY
+                        || !gameBoardData.TryGetBoardCell(new Vector2Int(x, writeY), out var writeCell)) continue;
+
+                    if (!writeCell.HasBoardItem)
+                    {
+                        if (!gameBoardData.TryGetBoardCell(new Vector2Int(x, readY), out var readCell)
+                            || !readCell.HasBoardItem) continue;
+
+                        var item = readCell.DetachItem();
+                        var tween = item.MoveToPos(writeCell.WorldPos, 0.2f); // TODO: Temp value for time
+                        writeCell.SetItem(item);
+                        tweens.Add(tween);
+                    }
+
+                    writeY++;
+                }
+            }
+
+            return tweens;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Match3.Core
         {
             _boardCells = boardCells;
         }
-
+        
         public bool TryGetBoardCell(Vector2Int coords, out BoardCell boardCell)
         {
             boardCell = null;
