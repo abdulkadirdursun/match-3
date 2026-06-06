@@ -8,13 +8,19 @@ namespace Match3.Core
     {
         [SerializeField] private Transform itemTransform;
         [SerializeField] private SpriteRenderer spriteRenderer;
+
+        private GameObject _rendererObject;
+
         public BoardItemData BoardItemData { get; private set; }
+        public event Action<BoardItem> ObjectHid;
 
         public void Initialize(BoardItemData boardItemData)
         {
             BoardItemData = boardItemData;
             spriteRenderer.sprite = boardItemData.ItemSprite;
             spriteRenderer.color = boardItemData.SetRendererColor ? boardItemData.RepresentingColor : Color.white;
+
+            Show();
         }
 
         public Tween MoveToPos(Vector2 targetPosition, float time)
@@ -22,9 +28,20 @@ namespace Match3.Core
             return itemTransform.DOMove(targetPosition, time);
         }
 
-        public void Destroy() //Temp
+        public void PlaceAt(Vector3 position)
         {
-            Destroy(gameObject);
+            itemTransform.position = position;
+        }
+
+        public void Show()
+        {
+            _rendererObject.SetActive(true);
+        }
+
+        public void Hide() //TODO: Set private when destroy/match animation function created
+        {
+            _rendererObject.SetActive(false);
+            ObjectHid?.Invoke(this);
         }
 
         #region MonoBehaviour Methods
@@ -32,6 +49,7 @@ namespace Match3.Core
         private void Awake()
         {
             if (itemTransform == null) itemTransform = transform;
+            _rendererObject = spriteRenderer.gameObject;
         }
 
         #endregion

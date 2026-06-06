@@ -14,7 +14,7 @@ namespace Match3.ObjectPooling
             Transform parent,
             int startPoolSize,
             int maxPoolSize,
-            Action<T> onCreate = null,
+            Action<T, ObjectPool<T>> onCreate = null,
             Action<T> onGet = null,
             Action<T> onRelease = null)
         {
@@ -36,7 +36,7 @@ namespace Match3.ObjectPooling
         private readonly T _prefab;
         private readonly Transform _parent;
         private readonly int _maxPoolSize;
-        private readonly Action<T> _onCreate;
+        private readonly Action<T, ObjectPool<T>> _onCreate;
         private readonly Action<T> _onGet;
         private readonly Action<T> _onRelease;
 
@@ -86,7 +86,7 @@ namespace Match3.ObjectPooling
         private T CreateObject()
         {
             var newObj = Object.Instantiate(_prefab, _parent, false);
-            _onCreate?.Invoke(newObj);
+            _onCreate?.Invoke(newObj, this);
             _currentPoolSize++;
             return newObj;
         }

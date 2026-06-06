@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 
 namespace Match3.Core
@@ -15,7 +14,7 @@ namespace Match3.Core
 
         public void ClearInPlace()
         {
-            BoardItem.Destroy(); //Temp method call
+            BoardItem.Hide();
             BoardItem = null;
         }
 
@@ -34,19 +33,17 @@ namespace Match3.Core
             return boardItemData != null;
         }
 
+        public void SetItem(BoardItem boardItem)
+        {
+            BoardItem = boardItem;
+        }
+
         public void Initialize(Vector3 position, Vector2Int coords, float scale)
         {
             Coordinates = coords;
             cellTransform.localScale = Vector3.one * scale;
             cellTransform.position = position;
         }
-
-        public Tween SetItem(BoardItem boardItem)
-        {
-            BoardItem = boardItem;
-            return BoardItem.MoveToPos(cellTransform.position, 0.2f);
-        }
-
 
         #region MonoBehaviour Methods
 

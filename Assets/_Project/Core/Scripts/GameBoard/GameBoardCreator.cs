@@ -11,7 +11,7 @@ namespace Match3.Core
         [Header("Pool")]
         [SerializeField] private BoardCell boardCellPrefab;
         [SerializeField] private int startPoolSize = 16;
-        [SerializeField] private int maxPoolSize = 121;
+        [SerializeField] private int maxPoolSize = 144;
 
         private ObjectPool<BoardCell> _cellPool;
 
@@ -48,6 +48,7 @@ namespace Match3.Core
         private void Awake()
         {
             _cellPool = new ObjectPool<BoardCell>(boardCellPrefab, transform, startPoolSize, maxPoolSize);
+            GenerateBoard();//TODO: Temp call
         }
 
         #endregion
