@@ -265,28 +265,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 386429547}
-  - component: {fileID: 386429546}
+  - component: {fileID: 386429550}
+  - component: {fileID: 386429549}
+  - component: {fileID: 386429548}
+  - component: {fileID: 386429551}
   m_Layer: 0
-  m_Name: GameBoardController
+  m_Name: GameplayControllers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &386429546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386429545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcc312a41a86c7945841a304e132e594, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoard.GameBoardController
-  playerInputHandler: {fileID: 795973412}
-  matchScanner: {fileID: 1401543846}
 --- !u!4 &386429547
 Transform:
   m_ObjectHideFlags: 0
@@ -302,6 +291,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &386429548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386429545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b26c37fc7e2d4cd3a050b352fd0d90c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardItems.BoardItemSpawner
+  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  boardItemDataArray:
+  - {fileID: 11400000, guid: a56a767b740de5b4e9c915da4f098410, type: 2}
+  - {fileID: 11400000, guid: 03f8c254912c4b543ab0a9bc4a890cc8, type: 2}
+  - {fileID: 11400000, guid: 3346c6cfc74f67b41bca2f6ed9643c12, type: 2}
+  - {fileID: 11400000, guid: eec5fa3ebdf604c408a8825e13da5e3a, type: 2}
+  - {fileID: 11400000, guid: c0daa1b60608a1547ad6d7e35c29dde3, type: 2}
+  boardItemPrefab: {fileID: 7753914182373127313, guid: 462f4e9b358e4ef429b93857512096a0, type: 3}
+  startItemPoolSize: 16
+  maxItemPoolSize: 144
+--- !u!114 &386429549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386429545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e39d3beb8af543f184cff5f53a4a3c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.MatchController
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
+--- !u!114 &386429550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386429545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48de2d6ba5e94d17b1d7879df8b82f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoardCreator
+  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
+  boardCellPrefab: {fileID: 7894996980349019388, guid: 6254faddd1e5aba41ad4a593d88dd38d, type: 3}
+  startPoolSize: 16
+  maxPoolSize: 144
+--- !u!114 &386429551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386429545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95892e5e2f4e445e8bc3ef4b13cbb1b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardResolver
+  matchScanner: {fileID: 386429549}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,54 +486,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &587102446
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 587102448}
-  - component: {fileID: 587102447}
-  m_Layer: 0
-  m_Name: ClickAndDragHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &587102447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587102446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d3a4180fb0f77049805960666d049b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.ClickAndDragHandler
-  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
-  mainCamera: {fileID: 330585545}
-  playerInputHandler: {fileID: 795973412}
-  checkInterval: 0.1
---- !u!4 &587102448
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587102446}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &795973410
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 795973411}
   - component: {fileID: 795973412}
+  - component: {fileID: 795973413}
   m_Layer: 0
   m_Name: PlayerInputHandler
   m_TagString: Untagged
@@ -521,6 +531,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d0adcaaa8b8b24b92983f0c0d30456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.InputSystem.PlayerInputHandler
+--- !u!114 &795973413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795973410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3a4180fb0f77049805960666d049b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.ClickAndDragHandler
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  mainCamera: {fileID: 330585545}
+  playerInputHandler: {fileID: 795973412}
+  boardResolver: {fileID: 386429551}
+  checkInterval: 0.1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,153 +597,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1401543844
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1401543845}
-  - component: {fileID: 1401543846}
-  m_Layer: 0
-  m_Name: MatchController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1401543845
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401543844}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1401543846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401543844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e39d3beb8af543f184cff5f53a4a3c4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.MatchController
-  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
---- !u!1 &1648202850
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1648202852}
-  - component: {fileID: 1648202851}
-  m_Layer: 0
-  m_Name: BoardItemSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1648202851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648202850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b26c37fc7e2d4cd3a050b352fd0d90c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardItems.BoardItemSpawner
-  boardItemPrefab: {fileID: 7753914182373127313, guid: 462f4e9b358e4ef429b93857512096a0, type: 3}
-  boardItemDataArray:
-  - {fileID: 11400000, guid: a56a767b740de5b4e9c915da4f098410, type: 2}
-  - {fileID: 11400000, guid: 03f8c254912c4b543ab0a9bc4a890cc8, type: 2}
-  - {fileID: 11400000, guid: 3346c6cfc74f67b41bca2f6ed9643c12, type: 2}
-  - {fileID: 11400000, guid: eec5fa3ebdf604c408a8825e13da5e3a, type: 2}
-  - {fileID: 11400000, guid: c0daa1b60608a1547ad6d7e35c29dde3, type: 2}
---- !u!4 &1648202852
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648202850}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1832595938
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1832595940}
-  - component: {fileID: 1832595939}
-  m_Layer: 0
-  m_Name: GameBoard
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1832595939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832595938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48de2d6ba5e94d17b1d7879df8b82f24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoardCreator
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
-  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
-  boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
-  boardCellPrefab: {fileID: 7894996980349019388, guid: 6254faddd1e5aba41ad4a593d88dd38d, type: 3}
-  startPoolSize: 16
-  maxPoolSize: 121
---- !u!4 &1832595940
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832595938}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -725,8 +605,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 795973411}
-  - {fileID: 587102448}
   - {fileID: 386429547}
-  - {fileID: 1648202852}
-  - {fileID: 1401543845}
-  - {fileID: 1832595940}

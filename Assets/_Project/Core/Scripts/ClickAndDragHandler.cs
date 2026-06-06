@@ -10,6 +10,7 @@ namespace Match3.Core
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private PlayerInputHandler playerInputHandler;
+        [SerializeField] private BoardResolver boardResolver;
         [SerializeField] private float checkInterval = 0.1f;
 
         private bool _dragging;
@@ -78,7 +79,7 @@ namespace Match3.Core
             if (!TryGetAdjacentCell(pointerPosition, out var adjacentCell)
                 || !adjacentCell.HasBoardItem) return;
 
-            //TODO: gameBoardController.SwapItems(_firstBoardCell, adjacentCell);
+            boardResolver.SwapCellItems(_firstBoardCell, adjacentCell);
             StopItemDrag();
         }
 
