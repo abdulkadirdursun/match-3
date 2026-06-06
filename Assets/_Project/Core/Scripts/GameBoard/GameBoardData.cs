@@ -22,7 +22,8 @@ namespace Match3.Core
             if (_boardCells == null
                 || coords.x < 0 || coords.x >= boardSize.x
                 || coords.y < 0 || coords.y >= boardSize.y) return false;
-            return _boardCells[coords.x, coords.y];
+            boardCell = _boardCells[coords.x, coords.y];
+            return true;
         }
 
         public bool TryGetBoardCell(Vector3 worldPos, out BoardCell boardCell)
