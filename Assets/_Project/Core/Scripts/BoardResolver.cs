@@ -14,6 +14,7 @@ namespace Match3.Core
         [SerializeField] private BoardItemSpawner boardItemSpawner;
 
         private const int MaxMatchCheckIteration = 64;
+        private bool _resolving;
 
         public async void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
@@ -41,6 +42,8 @@ namespace Match3.Core
 
         public async void ResolveMatches()
         {
+            if (_resolving) return;
+            _resolving = true;
             var tweens = new List<Tween>();
             for (int i = 0; i < MaxMatchCheckIteration; i++)
             {
@@ -54,6 +57,8 @@ namespace Match3.Core
                 if (tweens.Count > 0)
                     await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
             }
+
+            _resolving = false;
         }
 
         private List<Tween> CollapseBoard()
