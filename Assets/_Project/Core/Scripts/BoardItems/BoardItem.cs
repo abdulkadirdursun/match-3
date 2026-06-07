@@ -23,9 +23,9 @@ namespace Match3.Core
             Show();
         }
 
-        public Tween MoveToPos(Vector2 targetPosition, float time)
+        public Tween MoveToPos(Vector2 targetPosition, float time, Ease ease = Ease.Linear)
         {
-            return itemTransform.DOMove(targetPosition, time);
+            return itemTransform.DOMove(targetPosition, time).SetEase(ease);
         }
 
         public void PlaceAt(Vector3 position)

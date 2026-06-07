@@ -10,6 +10,7 @@ namespace Match3.Core
     {
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private GameplayData gameplayData;
+        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private MatchScanner matchScanner;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
 
@@ -20,16 +21,16 @@ namespace Match3.Core
         {
             var originCellItem = originCell.BoardItem;
             var movedCellItem = movedCell.BoardItem;
-            var originCellItemMoveTween = originCellItem.MoveToPos(movedCell.WorldPos, 0.2f); // TODO: Temp value for time
-            var movedCellItemMoveTween = movedCellItem.MoveToPos(originCell.WorldPos, 0.2f); // TODO: Temp value for time
+            var originCellItemMoveTween = originCellItem.MoveToPos(movedCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
+            var movedCellItemMoveTween = movedCellItem.MoveToPos(originCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
             originCell.SetItem(movedCellItem);
             movedCell.SetItem(originCellItem);
             await Task.WhenAll(originCellItemMoveTween.AsyncWaitForCompletion(), movedCellItemMoveTween.AsyncWaitForCompletion());
             if (!matchScanner.HasMatchAt(originCell.Coordinates)
                 && !matchScanner.HasMatchAt(movedCell.Coordinates))
             {
-                originCellItemMoveTween = originCellItem.MoveToPos(originCell.WorldPos, 0.2f); // TODO: Temp value for time
-                movedCellItemMoveTween = movedCellItem.MoveToPos(movedCell.WorldPos, 0.2f); // TODO: Temp value for time
+                originCellItemMoveTween = originCellItem.MoveToPos(originCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
+                movedCellItemMoveTween = movedCellItem.MoveToPos(movedCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
                 originCell.SetItem(originCellItem);
                 movedCell.SetItem(movedCellItem);
                 await Task.WhenAll(originCellItemMoveTween.AsyncWaitForCompletion(), movedCellItemMoveTween.AsyncWaitForCompletion());
@@ -81,7 +82,7 @@ namespace Match3.Core
                             || !readCell.HasBoardItem) continue;
 
                         var item = readCell.DetachItem();
-                        var tween = item.MoveToPos(writeCell.WorldPos, 0.2f).SetEase(Ease.InOutSine); // TODO: Temp value for time
+                        var tween = item.MoveToPos(writeCell.WorldPos, boardAnimationConfig.FallDuration, boardAnimationConfig.FallEase);
                         writeCell.SetItem(item);
                         tweens.Add(tween);
                     }

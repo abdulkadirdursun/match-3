@@ -11,6 +11,7 @@ namespace Match3.Core
         [SerializeField] private GameplayData gameplayData;
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private BoardConfig boardConfig;
+        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private BoardItemData[] boardItemDataArray;
         [Header("Pool")]
         [SerializeField] private BoardItem boardItemPrefab;
@@ -57,10 +58,9 @@ namespace Match3.Core
                     item.PlaceAt(spawnPos);
                     cell.SetItem(item);
 
-                    var moveTime = ((boardSize.y + 1 - y) * 0.2f); // TODO: Temp value for time
-                    var moveDelay = emptyCells * 0.2f; // TODO: Temp value for time
+                    var moveDelay = emptyCells * boardAnimationConfig.FallDelay; // TODO: Temp value for time
 
-                    var tween = item.MoveToPos(cell.WorldPos, moveTime).SetDelay(moveDelay).SetEase(Ease.InOutSine);
+                    var tween = item.MoveToPos(cell.WorldPos, boardAnimationConfig.FallDuration, boardAnimationConfig.FallEase).SetDelay(moveDelay);
                     tweens.Add(tween);
                     emptyCells++;
                 }
