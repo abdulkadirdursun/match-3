@@ -17,7 +17,7 @@ namespace Match3.Core
 
         public void GenerateBoard()
         {
-            var boardSize = gameplayData.LevelData.BoardSize;
+            var boardSize = gameplayData.BoardSize;
             var cellSize = boardConfig.CellSize;
             var halfExtendX = (boardSize.x - 1) * cellSize * 0.5f;
             var halfExtendY = (boardSize.y - 1) * cellSize * 0.5f;

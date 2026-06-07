@@ -22,7 +22,7 @@ namespace Match3.Core
 
         public void SpawnBoardItems()
         {
-            var boardSize = gameplayData.LevelData.BoardSize;
+            var boardSize = gameplayData.BoardSize;
             for (int y = 0; y < boardSize.y; y++)
             {
                 for (int x = 0; x < boardSize.x; x++)
@@ -40,7 +40,7 @@ namespace Match3.Core
         public List<Tween> RefillEmptyCells()
         {
             var tweens = new List<Tween>();
-            var boardSize = gameplayData.LevelData.BoardSize;
+            var boardSize = gameplayData.BoardSize;
             var spawnHeight = ((boardSize.y * 0.5f) + 1) * boardConfig.CellSize;
 
             for (int x = 0; x < boardSize.x; x++)

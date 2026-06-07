@@ -65,7 +65,7 @@ namespace Match3.Core
         private List<Tween> CollapseBoard()
         {
             var tweens = new List<Tween>();
-            var boardSize = gameplayData.LevelData.BoardSize;
+            var boardSize = gameplayData.BoardSize;
 
             for (int x = 0; x < boardSize.x; x++)
             {

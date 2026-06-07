@@ -28,7 +28,7 @@ namespace Match3.Core
         {
             var result = new HashSet<BoardCell>();
             var visited = new HashSet<Vector2Int>();
-            var boardSize = gameplayData.LevelData.BoardSize;
+            var boardSize = gameplayData.BoardSize;
             for (int y = 0; y < boardSize.y; y++)
             {
                 for (int x = 0; x < boardSize.x; x++)
@@ -60,7 +60,7 @@ namespace Match3.Core
         {
             originCell.TryGetBoardItemData(out var targetItemData);
 
-            var boardSize = gameplayData.LevelData.BoardSize;
+            var boardSize = gameplayData.BoardSize;
 
             var blob = new HashSet<BoardCell>();
             var visited = new HashSet<Vector2Int>();

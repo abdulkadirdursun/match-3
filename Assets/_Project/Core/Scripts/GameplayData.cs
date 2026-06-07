@@ -7,7 +7,7 @@ namespace Match3.Core
     public class GameplayData : ScriptableObject
     {
         [SerializeField] private LevelData levelData; //Set on inspector temporarily
-        
-        public LevelData LevelData => levelData;
+
+        public Vector2Int BoardSize => levelData.BoardSize;
     }
 }
