@@ -27,7 +27,7 @@ namespace Match3.ObjectPooling
 
             for (int i = 0; i < startPoolSize; i++)
             {
-                CreateObject();
+                _passiveObjects.Enqueue(CreateObject());
             }
         }
 
