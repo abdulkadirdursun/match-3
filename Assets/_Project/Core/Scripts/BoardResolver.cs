@@ -16,6 +16,7 @@ namespace Match3.Core
 
         private const int MaxMatchCheckIteration = 64;
         private bool _resolving;
+        private bool _boardDirty;
 
         public void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
@@ -48,15 +49,30 @@ namespace Match3.Core
             }
         }
 
-        public async void ResolveMatches()
+        private async void ResolveMatches()
         {
-            if (_resolving) return;
+            if (_resolving)
+            {
+                _boardDirty = true;
+                return;
+            }
+
             _resolving = true;
             var tweens = new List<Tween>();
             for (int i = 0; i < MaxMatchCheckIteration; i++)
             {
                 var matches = matchScanner.FindAllMatches();
-                if (matches.Count == 0) break;
+                if (matches.Count == 0)
+                {
+                    if (_boardDirty)
+                    {
+                        _boardDirty = false;
+                        continue;
+                    }
+
+                    break;
+                }
+
                 foreach (var cell in matches)
                     cell.ClearInPlace();
 
