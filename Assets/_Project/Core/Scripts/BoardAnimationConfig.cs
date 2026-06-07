@@ -16,6 +16,9 @@ namespace Match3.Core
         [Header("Failed Swap animation")]
         [SerializeField] private float bounceDuration = 0.3f;
         [SerializeField] private Ease bounceEase = Ease.InOutCubic;
+        [Header("Hide Animation")]
+        [SerializeField] private float hideDuration = 0.1f;
+        [SerializeField] private Ease hideEase = Ease.InBounce;
 
         //Fall
         public float FallDuration => fallDuration;
@@ -27,5 +30,8 @@ namespace Match3.Core
         //Bounce
         public float BounceDuration => bounceDuration;
         public Ease BounceEase => bounceEase;
+        //Hide
+        public float HideDuration => hideDuration;
+        public Ease HideEase => hideEase;
     }
 }

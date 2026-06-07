@@ -12,12 +12,6 @@ namespace Match3.Core
 
         public bool HasBoardItem => BoardItem != null;
 
-        public void ClearInPlace()
-        {
-            BoardItem.Hide();
-            BoardItem = null;
-        }
-
         public BoardItem DetachItem()
         {
             var item = BoardItem;

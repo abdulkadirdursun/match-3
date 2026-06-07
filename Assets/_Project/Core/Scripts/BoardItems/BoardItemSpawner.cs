@@ -58,9 +58,9 @@ namespace Match3.Core
                     item.PlaceAt(spawnPos);
                     cell.SetItem(item);
 
-                    var moveDelay = emptyCells * boardAnimationConfig.FallDelay; // TODO: Temp value for time
+                    var moveDelay = emptyCells * boardAnimationConfig.FallDelay;
 
-                    var tween = item.MoveToPos(cell.WorldPos, boardAnimationConfig.FallDuration, boardAnimationConfig.FallEase).SetDelay(moveDelay);
+                    var tween = item.FallToPos(cell.WorldPos, moveDelay);
                     tweens.Add(tween);
                     emptyCells++;
                 }

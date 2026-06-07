@@ -30,21 +30,17 @@ namespace Match3.Core
             {
                 originCellItem.BounceToAndBack(
                     movedCell.WorldPos,
-                    originCell.WorldPos,
-                    boardAnimationConfig.BounceDuration,
-                    boardAnimationConfig.BounceEase);
+                    originCell.WorldPos);
                 movedCellItem.BounceToAndBack(
                     originCell.WorldPos,
-                    movedCell.WorldPos,
-                    boardAnimationConfig.BounceDuration,
-                    boardAnimationConfig.BounceEase);
+                    movedCell.WorldPos);
                 originCell.SetItem(originCellItem);
                 movedCell.SetItem(movedCellItem);
             }
             else
             {
-                originCellItem.MoveToPos(movedCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
-                movedCellItem.MoveToPos(originCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
+                originCellItem.MoveToPos(movedCell.WorldPos);
+                movedCellItem.MoveToPos(originCell.WorldPos);
                 ResolveMatches();
             }
         }
@@ -74,12 +70,18 @@ namespace Match3.Core
                 }
 
                 foreach (var cell in matches)
-                    cell.ClearInPlace();
+                {
+                    var item = cell.DetachItem();
+                    tweens.Add(item.HideRequest());
+                }
 
+                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
+
+
+                tweens.Clear();
                 tweens.AddRange(CollapseBoard());
                 tweens.AddRange(boardItemSpawner.RefillEmptyCells());
-                if (tweens.Count > 0)
-                    await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
+                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
             }
 
             _resolving = false;
@@ -105,7 +107,7 @@ namespace Match3.Core
                             || !readCell.HasBoardItem) continue;
 
                         var item = readCell.DetachItem();
-                        var tween = item.MoveToPos(writeCell.WorldPos, boardAnimationConfig.FallDuration, boardAnimationConfig.FallEase);
+                        var tween = item.FallToPos(writeCell.WorldPos);
                         writeCell.SetItem(item);
                         tweens.Add(tween);
                     }

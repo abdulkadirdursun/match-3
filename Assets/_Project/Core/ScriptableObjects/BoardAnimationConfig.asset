@@ -17,3 +17,7 @@ MonoBehaviour:
   fallDelay: 0.1
   swapDuration: 0.15
   swapEase: 1
+  bounceDuration: 0.3
+  bounceEase: 10
+  hideDuration: 0.1
+  hideEase: 22

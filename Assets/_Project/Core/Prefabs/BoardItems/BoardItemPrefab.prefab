@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c6b79cc1325b4459bb980b079c755f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.Tile
+  itemTransform: {fileID: 5110797065402642740}
   spriteRenderer: {fileID: 529983142690727217}
+  boardAnimationConfig: {fileID: 11400000, guid: 827e78415ecaea8419994a2ea50a0793, type: 2}
 --- !u!1 &7666449876921293749
 GameObject:
   m_ObjectHideFlags: 0

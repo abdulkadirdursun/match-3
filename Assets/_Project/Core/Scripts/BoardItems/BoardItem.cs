@@ -8,6 +8,7 @@ namespace Match3.Core
     {
         [SerializeField] private Transform itemTransform;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
 
         private GameObject _rendererObject;
 
@@ -23,20 +24,44 @@ namespace Match3.Core
             Show();
         }
 
-        public Tween MoveToPos(Vector2 targetPosition, float time, Ease ease = Ease.Linear)
+        public Tween MoveToPos(Vector2 targetPosition)
         {
             itemTransform.DOKill();
-            return itemTransform.DOMove(targetPosition, time).SetEase(ease);
+            return itemTransform.DOMove(targetPosition, boardAnimationConfig.SwapDuration)
+                .SetEase(boardAnimationConfig.SwapEase);
         }
 
-        public Sequence BounceToAndBack(Vector2 awayPosition, Vector2 homePosition, float time, Ease ease = Ease.Linear)
+        public Tween FallToPos(Vector2 targetPosition)
         {
             itemTransform.DOKill();
-            var timePerMovement = time * 0.5f;
+            return itemTransform.DOMove(targetPosition, boardAnimationConfig.FallDuration)
+                .SetEase(boardAnimationConfig.FallEase);
+        }
+
+        public Tween FallToPos(Vector2 targetPosition, float delay)
+        {
+            return FallToPos(targetPosition)
+                .SetDelay(delay);
+        }
+
+        public Sequence BounceToAndBack(Vector2 awayPosition, Vector2 homePosition)
+        {
+            itemTransform.DOKill();
+            var timePerMovement = boardAnimationConfig.BounceDuration * 0.5f;
             var seq = DOTween.Sequence();
-            seq.Append(itemTransform.DOMove(awayPosition, timePerMovement).SetEase(ease));
-            seq.Append(itemTransform.DOMove(homePosition, timePerMovement).SetEase(ease));
+            seq.Append(itemTransform.DOMove(awayPosition, timePerMovement)
+                .SetEase(boardAnimationConfig.BounceEase));
+            seq.Append(itemTransform.DOMove(homePosition, timePerMovement)
+                .SetEase(boardAnimationConfig.BounceEase));
             return seq;
+        }
+
+        public Tween HideRequest()
+        {
+            itemTransform.DOKill();
+            return itemTransform.DOScale(Vector3.zero, boardAnimationConfig.HideDuration)
+                .SetEase(boardAnimationConfig.HideEase)
+                .OnComplete(Hide);
         }
 
         public void PlaceAt(Vector3 position)
@@ -44,14 +69,15 @@ namespace Match3.Core
             itemTransform.position = position;
         }
 
-        public void Show()
+        private void Show()
         {
             _rendererObject.SetActive(true);
         }
 
-        public void Hide() //TODO: Set private when destroy/match animation function created
+        private void Hide()
         {
             _rendererObject.SetActive(false);
+            transform.localScale = Vector3.one;
             ObjectHid?.Invoke(this);
         }
 
