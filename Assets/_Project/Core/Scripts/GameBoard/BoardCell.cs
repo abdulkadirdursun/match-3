@@ -46,6 +46,11 @@ namespace Match3.Core
             cellTransform.position = position;
         }
 
+        public void Reset()
+        {
+            BoardItem = null;
+        }
+
         #region MonoBehaviour Methods
 
         private void Awake()

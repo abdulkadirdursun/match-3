@@ -17,6 +17,8 @@ namespace Match3.Core
 
         public void GenerateBoard()
         {
+            _cellPool ??= new ObjectPool<BoardCell>(boardCellPrefab, transform, startPoolSize, maxPoolSize, onRelease: OnRelease);
+            _cellPool.ReleaseAll();
             var boardSize = gameplayData.BoardSize;
             var cellSize = boardConfig.CellSize;
             var halfExtendX = (boardSize.x - 1) * cellSize * 0.5f;
@@ -43,12 +45,11 @@ namespace Match3.Core
             gameBoardData.SetLevelBoard(boardCells);
         }
 
-        #region MonoBehaviour Methods
+        #region Pool Methods
 
-        private void Awake()
+        private void OnRelease(BoardCell boardCell)
         {
-            _cellPool = new ObjectPool<BoardCell>(boardCellPrefab, transform, startPoolSize, maxPoolSize);
-            GenerateBoard();//TODO: Temp call
+            boardCell.Reset();
         }
 
         #endregion

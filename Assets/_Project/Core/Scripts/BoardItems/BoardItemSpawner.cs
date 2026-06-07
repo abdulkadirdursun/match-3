@@ -22,6 +22,9 @@ namespace Match3.Core
 
         public void SpawnBoardItems()
         {
+            _boardItemPool ??= new ObjectPool<BoardItem>(boardItemPrefab, transform, startItemPoolSize, maxItemPoolSize, OnCreate, onRelease: OnRelease);
+            
+            _boardItemPool.ReleaseAll();
             var boardSize = gameplayData.BoardSize;
             for (int y = 0; y < boardSize.y; y++)
             {
@@ -76,18 +79,17 @@ namespace Match3.Core
             boardItem.ObjectHid += pool.ReleaseRequest;
         }
 
+        private void OnRelease(BoardItem boardItem)
+        {
+            boardItem.Reset();
+        }
+
         #endregion
 
         #region MonoBehaviour Methods
 
         private void Awake()
         {
-            _boardItemPool = new ObjectPool<BoardItem>(boardItemPrefab, transform, startItemPoolSize, maxItemPoolSize, OnCreate);
-        }
-
-        private void Start()
-        {
-            SpawnBoardItems(); //TODO: Temp function call
         }
 
         #endregion

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using DG.Tweening;
+using Match3.Core.Helpers;
 using UnityEngine;
 
 namespace Match3.Core
@@ -45,6 +47,17 @@ namespace Match3.Core
             }
         }
 
+        private CancellationTokenSource _cancellationTokenSource = new();
+
+        public void AbortTasks()
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = new();
+            _resolving = false;
+            _boardDirty = false;
+        }
+
         private async void ResolveMatches()
         {
             if (_resolving)
@@ -52,6 +65,8 @@ namespace Match3.Core
                 _boardDirty = true;
                 return;
             }
+
+            var token = _cancellationTokenSource.Token;
 
             _resolving = true;
             var tweens = new List<Tween>();
@@ -75,13 +90,14 @@ namespace Match3.Core
                     tweens.Add(item.HideRequest());
                 }
 
-                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
-
+                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
+                if (token.IsCancellationRequested) return;
 
                 tweens.Clear();
                 tweens.AddRange(CollapseBoard());
                 tweens.AddRange(boardItemSpawner.RefillEmptyCells());
-                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion()));
+                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
+                if (token.IsCancellationRequested) return;
             }
 
             _resolving = false;

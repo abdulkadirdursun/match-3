@@ -69,6 +69,13 @@ namespace Match3.Core
             itemTransform.position = position;
         }
 
+        public void Reset()
+        {
+            itemTransform.DOKill();
+            _rendererObject.SetActive(false);
+            transform.localScale = Vector3.one;
+        }
+
         private void Show()
         {
             _rendererObject.SetActive(true);
@@ -76,8 +83,7 @@ namespace Match3.Core
 
         private void Hide()
         {
-            _rendererObject.SetActive(false);
-            transform.localScale = Vector3.one;
+            Reset();
             ObjectHid?.Invoke(this);
         }
 
