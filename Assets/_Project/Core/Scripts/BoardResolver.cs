@@ -17,26 +17,33 @@ namespace Match3.Core
         private const int MaxMatchCheckIteration = 64;
         private bool _resolving;
 
-        public async void SwapCellItems(BoardCell originCell, BoardCell movedCell)
+        public void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
             var originCellItem = originCell.BoardItem;
             var movedCellItem = movedCell.BoardItem;
-            var originCellItemMoveTween = originCellItem.MoveToPos(movedCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
-            var movedCellItemMoveTween = movedCellItem.MoveToPos(originCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
             originCell.SetItem(movedCellItem);
             movedCell.SetItem(originCellItem);
-            await Task.WhenAll(originCellItemMoveTween.AsyncWaitForCompletion(), movedCellItemMoveTween.AsyncWaitForCompletion());
+
             if (!matchScanner.HasMatchAt(originCell.Coordinates)
                 && !matchScanner.HasMatchAt(movedCell.Coordinates))
             {
-                originCellItemMoveTween = originCellItem.MoveToPos(originCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
-                movedCellItemMoveTween = movedCellItem.MoveToPos(movedCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
+                originCellItem.BounceToAndBack(
+                    movedCell.WorldPos,
+                    originCell.WorldPos,
+                    boardAnimationConfig.BounceDuration,
+                    boardAnimationConfig.BounceEase);
+                movedCellItem.BounceToAndBack(
+                    originCell.WorldPos,
+                    movedCell.WorldPos,
+                    boardAnimationConfig.BounceDuration,
+                    boardAnimationConfig.BounceEase);
                 originCell.SetItem(originCellItem);
                 movedCell.SetItem(movedCellItem);
-                await Task.WhenAll(originCellItemMoveTween.AsyncWaitForCompletion(), movedCellItemMoveTween.AsyncWaitForCompletion());
             }
             else
             {
+                originCellItem.MoveToPos(movedCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
+                movedCellItem.MoveToPos(originCell.WorldPos, boardAnimationConfig.SwapDuration, boardAnimationConfig.SwapEase);
                 ResolveMatches();
             }
         }

@@ -13,11 +13,19 @@ namespace Match3.Core
         [Header("Swap Animation")]
         [SerializeField] private float swapDuration = 0.15f;
         [SerializeField] private Ease swapEase = Ease.Linear;
+        [Header("Failed Swap animation")]
+        [SerializeField] private float bounceDuration = 0.3f;
+        [SerializeField] private Ease bounceEase = Ease.InOutCubic;
 
+        //Fall
         public float FallDuration => fallDuration;
         public Ease FallEase => fallEase;
         public float FallDelay => fallDelay;
+        //Swap
         public float SwapDuration => swapDuration;
         public Ease SwapEase => swapEase;
+        //Bounce
+        public float BounceDuration => bounceDuration;
+        public Ease BounceEase => bounceEase;
     }
 }

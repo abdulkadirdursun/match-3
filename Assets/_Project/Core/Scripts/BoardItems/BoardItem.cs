@@ -25,7 +25,18 @@ namespace Match3.Core
 
         public Tween MoveToPos(Vector2 targetPosition, float time, Ease ease = Ease.Linear)
         {
+            itemTransform.DOKill();
             return itemTransform.DOMove(targetPosition, time).SetEase(ease);
+        }
+
+        public Sequence BounceToAndBack(Vector2 awayPosition, Vector2 homePosition, float time, Ease ease = Ease.Linear)
+        {
+            itemTransform.DOKill();
+            var timePerMovement = time * 0.5f;
+            var seq = DOTween.Sequence();
+            seq.Append(itemTransform.DOMove(awayPosition, timePerMovement).SetEase(ease));
+            seq.Append(itemTransform.DOMove(homePosition, timePerMovement).SetEase(ease));
+            return seq;
         }
 
         public void PlaceAt(Vector3 position)
