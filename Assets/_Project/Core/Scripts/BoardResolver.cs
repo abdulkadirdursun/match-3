@@ -20,7 +20,7 @@ namespace Match3.Core
         private bool _resolving;
         private bool _boardDirty;
 
-        public void SwapCellItems(BoardCell originCell, BoardCell movedCell)
+        public async void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
             var originCellItem = originCell.BoardItem;
             var movedCellItem = movedCell.BoardItem;
@@ -41,8 +41,14 @@ namespace Match3.Core
             }
             else
             {
-                originCellItem.MoveToPos(movedCell.WorldPos);
-                movedCellItem.MoveToPos(originCell.WorldPos);
+                Tween[] tweens = new Tween[]
+                {
+                    originCellItem.MoveToPos(movedCell.WorldPos),
+                    movedCellItem.MoveToPos(originCell.WorldPos)
+                };
+                var token = _cancellationTokenSource.Token;
+                await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
+                if (token.IsCancellationRequested) return;
                 ResolveMatches();
             }
         }
