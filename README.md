@@ -5,7 +5,7 @@ A mobile-style match-3 puzzle game built in Unity, recreating the core board gam
 > **Status:** In active development. The core board loop (board generation → swap → match detection → clear → collapse → refill → re-scan) is implemented and playable. UI, progression, and meta systems are in progress.
 
 <div align="center">
-<video src=https://github.com/user-attachments/assets/edcb9c5c-7782-4127-bfee-3fa8d2fe539d></video>
+<video src=https://github.com/user-attachments/assets/f820ca05-121c-4b34-8c35-8c57363fb453></video>
 </div>
 
 ## Architecture
