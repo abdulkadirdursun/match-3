@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Match3.Core
 {
@@ -14,7 +15,17 @@ namespace Match3.Core
         {
             _boardCells = boardCells;
         }
-        
+
+        public void GetOccupiedCells(List<BoardCell> occupiedCells)
+        {
+            occupiedCells.Clear();
+            foreach (var boardCell in _boardCells)
+            {
+                if (!boardCell.HasBoardItem) continue;
+                occupiedCells.Add(boardCell);
+            }
+        }
+
         public bool TryGetBoardCell(Vector2Int coords, out BoardCell boardCell)
         {
             boardCell = null;
