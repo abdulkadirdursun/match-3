@@ -106,7 +106,7 @@ namespace Match3.Core
 
         #region Possible Match Control
 
-        public bool HasAnyPossibleMatch()
+        public bool HasValidMove()
         {
             var boardSize = gameplayData.BoardSize;
             for (int y = 0; y < boardSize.y; y++)

@@ -61,7 +61,7 @@ namespace Match3.Core
                 }
 
                 iteration--;
-            } while (!matchScanner.HasAnyPossibleMatch() && iteration > 0);
+            } while (!matchScanner.HasValidMove() && iteration > 0);
         }
 
         public List<Tween> RefillEmptyCells()
