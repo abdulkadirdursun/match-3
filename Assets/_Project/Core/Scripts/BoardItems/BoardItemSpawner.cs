@@ -12,6 +12,7 @@ namespace Match3.Core
         [SerializeField] private BoardConfig boardConfig;
         [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private BoardItemData[] boardItemDataArray;
+        [SerializeField] private MatchScanner matchScanner;
         [Header("Pool")]
         [SerializeField] private BoardItem boardItemPrefab;
         [SerializeField] private int startItemPoolSize = 16;
@@ -22,39 +23,45 @@ namespace Match3.Core
         public void SpawnBoardItems()
         {
             _boardItemPool ??= new ObjectPool<BoardItem>(boardItemPrefab, transform, startItemPoolSize, maxItemPoolSize, OnCreate, onRelease: OnRelease);
-
-            _boardItemPool.ReleaseAll();
             var boardSize = gameplayData.BoardSize;
             var excludedItems = new HashSet<BoardItemData>();
-            for (int y = 0; y < boardSize.y; y++)
+            var iteration = 10;
+
+            do
             {
-                for (int x = 0; x < boardSize.x; x++)
+                _boardItemPool.ReleaseAll();
+                for (int y = 0; y < boardSize.y; y++)
                 {
-                    excludedItems.Clear();
-                    var coord = new Vector2Int(x, y);
-                    if (!gameBoardData.TryGetBoardCell(coord, out var cell)) continue;
-                    if (x >= 2
-                        && gameBoardData.TryGetBoardCell(coord + Vector2Int.left, out var leftNeighborCell) && leftNeighborCell.HasBoardItem
-                        && gameBoardData.TryGetBoardCell(coord + (2 * Vector2Int.left), out var farLeftCell) && farLeftCell.HasBoardItem
-                        && leftNeighborCell.BoardItem.BoardItemData == farLeftCell.BoardItem.BoardItemData)
+                    for (int x = 0; x < boardSize.x; x++)
                     {
-                        excludedItems.Add(leftNeighborCell.BoardItem.BoardItemData);
-                    }
+                        excludedItems.Clear();
+                        var coord = new Vector2Int(x, y);
+                        if (!gameBoardData.TryGetBoardCell(coord, out var cell)) continue;
+                        if (x >= 2
+                            && gameBoardData.TryGetBoardCell(coord + Vector2Int.left, out var leftNeighborCell) && leftNeighborCell.HasBoardItem
+                            && gameBoardData.TryGetBoardCell(coord + (2 * Vector2Int.left), out var farLeftCell) && farLeftCell.HasBoardItem
+                            && leftNeighborCell.BoardItem.BoardItemData == farLeftCell.BoardItem.BoardItemData)
+                        {
+                            excludedItems.Add(leftNeighborCell.BoardItem.BoardItemData);
+                        }
 
-                    if (y >= 2
-                        && gameBoardData.TryGetBoardCell(coord + Vector2Int.down, out var bottomNeighborCell) && bottomNeighborCell.HasBoardItem
-                        && gameBoardData.TryGetBoardCell(coord + Vector2Int.down, out var farBottomCell) && farBottomCell.HasBoardItem
-                        && bottomNeighborCell.BoardItem.BoardItemData == farBottomCell.BoardItem.BoardItemData)
-                    {
-                        excludedItems.Add(bottomNeighborCell.BoardItem.BoardItemData);
-                    }
+                        if (y >= 2
+                            && gameBoardData.TryGetBoardCell(coord + Vector2Int.down, out var bottomNeighborCell) && bottomNeighborCell.HasBoardItem
+                            && gameBoardData.TryGetBoardCell(coord + Vector2Int.down, out var farBottomCell) && farBottomCell.HasBoardItem
+                            && bottomNeighborCell.BoardItem.BoardItemData == farBottomCell.BoardItem.BoardItemData)
+                        {
+                            excludedItems.Add(bottomNeighborCell.BoardItem.BoardItemData);
+                        }
 
-                    var newBoardItem = _boardItemPool.Get();
-                    newBoardItem.Initialize(GetBoardItemData(excludedItems));
-                    newBoardItem.PlaceAt(cell.WorldPos);
-                    cell.SetItem(newBoardItem);
+                        var newBoardItem = _boardItemPool.Get();
+                        newBoardItem.Initialize(GetBoardItemData(excludedItems));
+                        newBoardItem.PlaceAt(cell.WorldPos);
+                        cell.SetItem(newBoardItem);
+                    }
                 }
-            }
+
+                iteration--;
+            } while (!matchScanner.HasAnyPossibleMatch() && iteration > 0);
         }
 
         public List<Tween> RefillEmptyCells()
