@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
-using Match3.Core.Helpers;
 using Match3.ObjectPooling;
 using UnityEngine;
 
@@ -13,6 +12,7 @@ namespace Match3.Core
         [SerializeField] private BoardConfig boardConfig;
         [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private BoardItemData[] boardItemDataArray;
+        [SerializeField] private MatchScanner matchScanner;
         [Header("Pool")]
         [SerializeField] private BoardItem boardItemPrefab;
         [SerializeField] private int startItemPoolSize = 16;
@@ -23,21 +23,45 @@ namespace Match3.Core
         public void SpawnBoardItems()
         {
             _boardItemPool ??= new ObjectPool<BoardItem>(boardItemPrefab, transform, startItemPoolSize, maxItemPoolSize, OnCreate, onRelease: OnRelease);
-            
-            _boardItemPool.ReleaseAll();
             var boardSize = gameplayData.BoardSize;
-            for (int y = 0; y < boardSize.y; y++)
+            var excludedItems = new HashSet<BoardItemData>();
+            var iteration = 50;
+
+            do
             {
-                for (int x = 0; x < boardSize.x; x++)
+                _boardItemPool.ReleaseAll();
+                for (int y = 0; y < boardSize.y; y++)
                 {
-                    var coord = new Vector2Int(x, y);
-                    if (!gameBoardData.TryGetBoardCell(coord, out var cell)) continue;
-                    var newBoardItem = _boardItemPool.Get();
-                    newBoardItem.Initialize(boardItemDataArray.Random());
-                    newBoardItem.PlaceAt(cell.WorldPos);
-                    cell.SetItem(newBoardItem);
+                    for (int x = 0; x < boardSize.x; x++)
+                    {
+                        excludedItems.Clear();
+                        var coord = new Vector2Int(x, y);
+                        if (!gameBoardData.TryGetBoardCell(coord, out var cell)) continue;
+                        if (x >= 2
+                            && gameBoardData.TryGetBoardCell(coord + Vector2Int.left, out var leftNeighborCell) && leftNeighborCell.HasBoardItem
+                            && gameBoardData.TryGetBoardCell(coord + (2 * Vector2Int.left), out var farLeftCell) && farLeftCell.HasBoardItem
+                            && leftNeighborCell.BoardItem.BoardItemData == farLeftCell.BoardItem.BoardItemData)
+                        {
+                            excludedItems.Add(leftNeighborCell.BoardItem.BoardItemData);
+                        }
+
+                        if (y >= 2
+                            && gameBoardData.TryGetBoardCell(coord + Vector2Int.down, out var bottomNeighborCell) && bottomNeighborCell.HasBoardItem
+                            && gameBoardData.TryGetBoardCell(coord + Vector2Int.down, out var farBottomCell) && farBottomCell.HasBoardItem
+                            && bottomNeighborCell.BoardItem.BoardItemData == farBottomCell.BoardItem.BoardItemData)
+                        {
+                            excludedItems.Add(bottomNeighborCell.BoardItem.BoardItemData);
+                        }
+
+                        var newBoardItem = _boardItemPool.Get();
+                        newBoardItem.Initialize(GetBoardItemData(excludedItems));
+                        newBoardItem.PlaceAt(cell.WorldPos);
+                        cell.SetItem(newBoardItem);
+                    }
                 }
-            }
+
+                iteration--;
+            } while (!matchScanner.HasValidMove() && iteration > 0);
         }
 
         public List<Tween> RefillEmptyCells()
@@ -55,7 +79,7 @@ namespace Match3.Core
                         || cell.HasBoardItem) continue;
 
                     var item = _boardItemPool.Get();
-                    item.Initialize(boardItemDataArray.Random());
+                    item.Initialize(GetBoardItemData());
                     var spawnPos = cell.WorldPos;
                     spawnPos.y = spawnHeight;
                     item.PlaceAt(spawnPos);
@@ -72,6 +96,22 @@ namespace Match3.Core
             return tweens;
         }
 
+        private BoardItemData GetBoardItemData(HashSet<BoardItemData> excludedItems = null)
+        {
+            var randomNumber = Random.Range(0, boardItemDataArray.Length);
+            var selectedItem = boardItemDataArray[randomNumber];
+            if (excludedItems is { Count: > 0 })
+            {
+                while (excludedItems.Contains(selectedItem))
+                {
+                    randomNumber = (randomNumber + 1) % boardItemDataArray.Length;
+                    selectedItem = boardItemDataArray[randomNumber];
+                }
+            }
+
+            return selectedItem;
+        }
+
         #region Pool Methods
 
         private void OnCreate(BoardItem boardItem, ObjectPool<BoardItem> pool)
@@ -82,14 +122,6 @@ namespace Match3.Core
         private void OnRelease(BoardItem boardItem)
         {
             boardItem.Reset();
-        }
-
-        #endregion
-
-        #region MonoBehaviour Methods
-
-        private void Awake()
-        {
         }
 
         #endregion

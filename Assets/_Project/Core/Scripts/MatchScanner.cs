@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Match3.Core
@@ -102,5 +103,63 @@ namespace Match3.Core
 
             return false;
         }
+
+        #region Possible Match Control
+
+        public bool HasValidMove()
+        {
+            var boardSize = gameplayData.BoardSize;
+            for (int y = 0; y < boardSize.y; y++)
+            {
+                for (int x = 0; x < boardSize.x; x++)
+                {
+                    var coord = new Vector2Int(x, y);
+                    if (WouldSwapCreateMatch(coord, coord + Vector2Int.right)
+                        || WouldSwapCreateMatch(coord, coord + Vector2Int.up)) return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool WouldSwapCreateMatch(Vector2Int coordA, Vector2Int coordB)
+        {
+            if (!gameBoardData.TryGetBoardCell(coordA, out var cellA) || !cellA.HasBoardItem
+                                                                      || !gameBoardData.TryGetBoardCell(coordB, out var cellB) || !cellB.HasBoardItem) return false;
+
+            if (cellA.BoardItem.BoardItemData == cellB.BoardItem.BoardItemData) return false; //Swapping identical item is pointless
+
+            return FormsMatchingLine(coordA, cellB.BoardItem.BoardItemData, GetItemDataAt) || FormsMatchingLine(coordB, cellA.BoardItem.BoardItemData, GetItemDataAt);
+
+            BoardItemData GetItemDataAt(Vector2Int coord)
+            {
+                if (coord == coordA) return cellB.BoardItem.BoardItemData;
+                if (coord == coordB) return cellA.BoardItem.BoardItemData;
+
+                return gameBoardData.TryGetBoardCell(coord, out var cell) && cell.HasBoardItem ? cell.BoardItem.BoardItemData : null;
+            }
+        }
+
+        private bool FormsMatchingLine(Vector2Int coord, BoardItemData targetItemData, Func<Vector2Int, BoardItemData> getItemDataAt)
+        {
+            if (1 + Count(Vector2Int.right) + Count(Vector2Int.left) >= 3) return true;
+            if (1 + Count(Vector2Int.up) + Count(Vector2Int.down) >= 3) return true;
+
+            return false;
+
+            int Count(Vector2Int direction)
+            {
+                int count = 0;
+
+                for (var currentCoord = coord + direction;
+                     getItemDataAt(currentCoord) == targetItemData;
+                     currentCoord += direction)
+                    count++;
+
+                return count;
+            }
+        }
+
+        #endregion
     }
 }

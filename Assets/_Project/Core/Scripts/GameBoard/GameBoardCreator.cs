@@ -8,6 +8,7 @@ namespace Match3.Core
         [SerializeField] private GameplayData gameplayData;
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private BoardConfig boardConfig;
+        [SerializeField] private Transform maskTransform;
         [Header("Pool")]
         [SerializeField] private BoardCell boardCellPrefab;
         [SerializeField] private int startPoolSize = 16;
@@ -21,6 +22,7 @@ namespace Match3.Core
             _cellPool.ReleaseAll();
             var boardSize = gameplayData.BoardSize;
             var cellSize = boardConfig.CellSize;
+            maskTransform.localScale = new Vector3(boardSize.x * cellSize, boardSize.y * cellSize, 1f);
             var halfExtendX = (boardSize.x - 1) * cellSize * 0.5f;
             var halfExtendY = (boardSize.y - 1) * cellSize * 0.5f;
             var boardCells = new BoardCell[boardSize.x, boardSize.y];
