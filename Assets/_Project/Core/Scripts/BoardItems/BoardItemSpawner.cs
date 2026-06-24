@@ -25,7 +25,7 @@ namespace Match3.Core
             _boardItemPool ??= new ObjectPool<BoardItem>(boardItemPrefab, transform, startItemPoolSize, maxItemPoolSize, OnCreate, onRelease: OnRelease);
             var boardSize = gameplayData.BoardSize;
             var excludedItems = new HashSet<BoardItemData>();
-            var iteration = 10;
+            var iteration = 50;
 
             do
             {
