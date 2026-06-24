@@ -90,6 +90,7 @@ namespace Match3.Core
                     break;
                 }
 
+                tweens.Clear();
                 foreach (var cell in matches)
                 {
                     var item = cell.DetachItem();
