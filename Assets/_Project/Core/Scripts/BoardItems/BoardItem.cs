@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Match3.LevelSystem;
 using UnityEngine;
 
 namespace Match3.Core
@@ -56,12 +57,12 @@ namespace Match3.Core
             return seq;
         }
 
-        public Tween HideRequest()
+        public Tween BreakItem()
         {
             itemTransform.DOKill();
             return itemTransform.DOScale(Vector3.zero, boardAnimationConfig.HideDuration)
                 .SetEase(boardAnimationConfig.HideEase)
-                .OnComplete(Hide);
+                .OnComplete(OnBroken);
         }
 
         public void PlaceAt(Vector3 position)
@@ -81,7 +82,7 @@ namespace Match3.Core
             _rendererObject.SetActive(true);
         }
 
-        private void Hide()
+        private void OnBroken()
         {
             Reset();
             ObjectHid?.Invoke(this);
