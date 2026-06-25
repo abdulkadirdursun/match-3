@@ -7,9 +7,10 @@ namespace Match3.Core
 {
     public class BoardItem : MonoBehaviour
     {
+        [SerializeField] private LevelObjectiveService levelObjectiveService;
+        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private Transform itemTransform;
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
 
         private GameObject _rendererObject;
 
@@ -84,6 +85,7 @@ namespace Match3.Core
 
         private void OnBroken()
         {
+            levelObjectiveService.ItemBroke(BoardItemData);
             Reset();
             ObjectHid?.Invoke(this);
         }
