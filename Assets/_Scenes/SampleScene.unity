@@ -632,6 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.LevelSystem.LevelManager
   levelDatabase: {fileID: 11400000, guid: 3cdf7807aa83ca245bd42ece82827bee, type: 2}
+  levelObjectiveService: {fileID: 11400000, guid: d122fd3f0d850734782f91e184c45b92, type: 2}
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
   gameBoardCreator: {fileID: 386429550}
   boardItemSpawner: {fileID: 386429548}
