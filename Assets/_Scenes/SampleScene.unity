@@ -304,7 +304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26c37fc7e2d4cd3a050b352fd0d90c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardItems.BoardItemSpawner
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
   boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
   boardAnimationConfig: {fileID: 11400000, guid: 827e78415ecaea8419994a2ea50a0793, type: 2}
@@ -331,7 +330,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.MatchController
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
 --- !u!114 &386429550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48de2d6ba5e94d17b1d7879df8b82f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoardCreator
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
   boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
   maskTransform: {fileID: 1557694063}
@@ -364,7 +361,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.BoardResolver
   gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
   boardAnimationConfig: {fileID: 11400000, guid: 827e78415ecaea8419994a2ea50a0793, type: 2}
   matchScanner: {fileID: 386429549}
   boardItemSpawner: {fileID: 386429548}
@@ -636,7 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.LevelSystem.LevelManager
   levelDatabase: {fileID: 11400000, guid: 3cdf7807aa83ca245bd42ece82827bee, type: 2}
-  gameplayData: {fileID: 11400000, guid: e1dfeb9c5fec6fc4886b9ff15ce9fe16, type: 2}
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
   gameBoardCreator: {fileID: 386429550}
   boardItemSpawner: {fileID: 386429548}
   boardResolver: {fileID: 386429551}

@@ -6,7 +6,7 @@ namespace Match3.LevelSystem
     public class LevelManager : MonoBehaviour
     {
         [SerializeField] private LevelDatabase levelDatabase;
-        [SerializeField] private GameplayData gameplayData;
+        [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private GameBoardCreator gameBoardCreator;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
         [SerializeField] private BoardResolver boardResolver;
@@ -17,7 +17,7 @@ namespace Match3.LevelSystem
         {
             CleanTheLevel();
             var levelData = levelDatabase.GetLoopLevelData(CurrentLevel);
-            gameplayData.SetLevelData(levelData);
+            gameBoardData.SetBoardSize(levelData.BoardSize);
             gameBoardCreator.GenerateBoard();
             boardItemSpawner.SpawnBoardItems();
         }

@@ -12,7 +12,6 @@ namespace Match3.Core
     public class BoardResolver : MonoBehaviour
     {
         [SerializeField] private GameBoardData gameBoardData;
-        [SerializeField] private GameplayData gameplayData;
         [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private MatchScanner matchScanner;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
@@ -120,7 +119,7 @@ namespace Match3.Core
         private List<Tween> CollapseBoard()
         {
             var tweens = new List<Tween>();
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
 
             for (int x = 0; x < boardSize.x; x++)
             {

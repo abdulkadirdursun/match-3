@@ -7,7 +7,6 @@ namespace Match3.Core
 {
     public class BoardItemSpawner : MonoBehaviour
     {
-        [SerializeField] private GameplayData gameplayData;
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private BoardConfig boardConfig;
         [SerializeField] private BoardAnimationConfig boardAnimationConfig;
@@ -23,7 +22,7 @@ namespace Match3.Core
         public void SpawnBoardItems()
         {
             _boardItemPool ??= new ObjectPool<BoardItem>(boardItemPrefab, transform, startItemPoolSize, maxItemPoolSize, OnCreate, onRelease: OnRelease);
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
             var excludedItems = new HashSet<BoardItemData>();
             var iteration = 50;
 
@@ -67,7 +66,7 @@ namespace Match3.Core
         public List<Tween> RefillEmptyCells()
         {
             var tweens = new List<Tween>();
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
             var spawnHeight = ((boardSize.y * 0.5f) + 1) * boardConfig.CellSize;
 
             for (int x = 0; x < boardSize.x; x++)

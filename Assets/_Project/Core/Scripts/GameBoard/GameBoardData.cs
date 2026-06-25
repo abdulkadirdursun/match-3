@@ -6,10 +6,15 @@ namespace Match3.Core
     [CreateAssetMenu(fileName = "GameBoardData", menuName = "Match 3/Core/Game Board Data")]
     public class GameBoardData : ScriptableObject
     {
-        [SerializeField] private GameplayData gameplayData;
         [SerializeField] private BoardConfig boardConfig;
 
+        public Vector2Int BoardSize { get; private set; }
         private BoardCell[,] _boardCells;
+
+        public void SetBoardSize(Vector2Int boardSize)
+        {
+            BoardSize = boardSize;
+        }
 
         public void SetLevelBoard(BoardCell[,] boardCells)
         {
@@ -29,10 +34,9 @@ namespace Match3.Core
         public bool TryGetBoardCell(Vector2Int coords, out BoardCell boardCell)
         {
             boardCell = null;
-            var boardSize = gameplayData.BoardSize;
             if (_boardCells == null
-                || coords.x < 0 || coords.x >= boardSize.x
-                || coords.y < 0 || coords.y >= boardSize.y) return false;
+                || coords.x < 0 || coords.x >= BoardSize.x
+                || coords.y < 0 || coords.y >= BoardSize.y) return false;
             boardCell = _boardCells[coords.x, coords.y];
             return true;
         }
@@ -41,9 +45,8 @@ namespace Match3.Core
         {
             boardCell = null;
             if (_boardCells == null) return false;
-            var boardSize = gameplayData.BoardSize;
-            var halfExtendX = boardSize.x * boardConfig.CellSize * 0.5f;
-            var halfExtendY = boardSize.y * boardConfig.CellSize * 0.5f;
+            var halfExtendX = BoardSize.x * boardConfig.CellSize * 0.5f;
+            var halfExtendY = BoardSize.y * boardConfig.CellSize * 0.5f;
 
             var coord = Vector2Int.zero;
             coord.x = Mathf.FloorToInt((worldPos.x + halfExtendX) / boardConfig.CellSize);
