@@ -93,7 +93,7 @@ namespace Match3.Core
                 foreach (var cell in matches)
                 {
                     var item = cell.DetachItem();
-                    tweens.Add(item.HideRequest());
+                    tweens.Add(item.BreakItem());
                 }
 
                 if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);

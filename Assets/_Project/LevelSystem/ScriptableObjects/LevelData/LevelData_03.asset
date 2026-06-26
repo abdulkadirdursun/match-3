@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc7c07d0506479fb3e403a0e94c80e5, type: 3}
   m_Name: LevelData_03
   m_EditorClassIdentifier: Assembly-CSharp::Match3.LevelSystem.LevelData
+  targetItemData: {fileID: 11400000, guid: eec5fa3ebdf604c408a8825e13da5e3a, type: 2}
+  targetAmount: 40
   boardSize: {x: 8, y: 10}

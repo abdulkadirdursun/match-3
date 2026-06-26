@@ -1,4 +1,6 @@
+using System;
 using Match3.Core;
+using Match3.ObjectiveSystem;
 using UnityEngine;
 
 namespace Match3.LevelSystem
@@ -6,6 +8,7 @@ namespace Match3.LevelSystem
     public class LevelManager : MonoBehaviour
     {
         [SerializeField] private LevelDatabase levelDatabase;
+        [SerializeField] private ObjectiveService objectiveService;
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private GameBoardCreator gameBoardCreator;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
@@ -17,6 +20,7 @@ namespace Match3.LevelSystem
         {
             CleanTheLevel();
             var levelData = levelDatabase.GetLoopLevelData(CurrentLevel);
+            objectiveService.StartObjectiveProgress(levelData.TargetItemData, levelData.TargetAmount);
             gameBoardData.SetBoardSize(levelData.BoardSize);
             gameBoardCreator.GenerateBoard();
             boardItemSpawner.SpawnBoardItems();
@@ -38,6 +42,16 @@ namespace Match3.LevelSystem
         private void Awake()
         {
             StartTheLevel();
+        }
+
+        private void OnEnable()
+        {
+            objectiveService.ObjectiveComplete += StartNewLevel;
+        }
+
+        private void OnDisable()
+        {
+            objectiveService.ObjectiveComplete -= StartNewLevel;
         }
 
         #endregion

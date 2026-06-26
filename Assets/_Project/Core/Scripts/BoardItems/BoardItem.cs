@@ -1,14 +1,17 @@
 using System;
 using DG.Tweening;
+using Match3.LevelSystem;
+using Match3.ObjectiveSystem;
 using UnityEngine;
 
 namespace Match3.Core
 {
     public class BoardItem : MonoBehaviour
     {
+        [SerializeField] private ObjectiveService objectiveService;
+        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private Transform itemTransform;
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
 
         private GameObject _rendererObject;
 
@@ -56,12 +59,12 @@ namespace Match3.Core
             return seq;
         }
 
-        public Tween HideRequest()
+        public Tween BreakItem()
         {
             itemTransform.DOKill();
             return itemTransform.DOScale(Vector3.zero, boardAnimationConfig.HideDuration)
                 .SetEase(boardAnimationConfig.HideEase)
-                .OnComplete(Hide);
+                .OnComplete(OnBroken);
         }
 
         public void PlaceAt(Vector3 position)
@@ -81,8 +84,9 @@ namespace Match3.Core
             _rendererObject.SetActive(true);
         }
 
-        private void Hide()
+        private void OnBroken()
         {
+            objectiveService.ItemBroke(BoardItemData);
             Reset();
             ObjectHid?.Invoke(this);
         }
