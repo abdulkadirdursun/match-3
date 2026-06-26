@@ -1,3 +1,4 @@
+using System;
 using Match3.Core;
 using Match3.ObjectiveSystem;
 using UnityEngine;
@@ -41,6 +42,16 @@ namespace Match3.LevelSystem
         private void Awake()
         {
             StartTheLevel();
+        }
+
+        private void OnEnable()
+        {
+            objectiveService.ObjectiveComplete += StartNewLevel;
+        }
+
+        private void OnDisable()
+        {
+            objectiveService.ObjectiveComplete -= StartNewLevel;
         }
 
         #endregion
