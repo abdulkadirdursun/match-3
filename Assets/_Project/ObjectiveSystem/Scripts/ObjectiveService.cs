@@ -12,22 +12,25 @@ namespace Match3.ObjectiveSystem
 
         private bool _targetReached;
 
-        public event Action LevelObjectiveComplete;
+        public event Action ObjectiveComplete;
+        public event Action ObjectiveChanged;
 
         public void StartObjectiveProgress(BoardItemData targetItemData, int targetAmount)
         {
             TargetItemData = targetItemData;
             RemainingTargetAmount = targetAmount;
             _targetReached = false;
+            ObjectiveChanged?.Invoke();
         }
 
         public void ItemBroke(BoardItemData itemData)
         {
             if (_targetReached || itemData != TargetItemData) return;
             RemainingTargetAmount--;
+            ObjectiveChanged?.Invoke();
             if (RemainingTargetAmount > 0) return;
             _targetReached = true;
-            LevelObjectiveComplete?.Invoke();
+            ObjectiveComplete?.Invoke();
         }
     }
 }
