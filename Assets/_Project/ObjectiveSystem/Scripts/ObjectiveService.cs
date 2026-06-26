@@ -2,10 +2,10 @@
 using Match3.Core;
 using UnityEngine;
 
-namespace Match3.LevelSystem
+namespace Match3.ObjectiveSystem
 {
-    [CreateAssetMenu(fileName = "LevelObjectiveService", menuName = "Match 3/Level System/Level Objective Service")]
-    public class LevelObjectiveService : ScriptableObject
+    [CreateAssetMenu(fileName = "ObjectiveService", menuName = "Match 3/Objective System/Objective Service")]
+    public class ObjectiveService : ScriptableObject
     {
         public BoardItemData TargetItemData { get; private set; }
         public int RemainingTargetAmount { get; private set; }

@@ -1,13 +1,14 @@
 using System;
 using DG.Tweening;
 using Match3.LevelSystem;
+using Match3.ObjectiveSystem;
 using UnityEngine;
 
 namespace Match3.Core
 {
     public class BoardItem : MonoBehaviour
     {
-        [SerializeField] private LevelObjectiveService levelObjectiveService;
+        [SerializeField] private ObjectiveService objectiveService;
         [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private Transform itemTransform;
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -85,7 +86,7 @@ namespace Match3.Core
 
         private void OnBroken()
         {
-            levelObjectiveService.ItemBroke(BoardItemData);
+            objectiveService.ItemBroke(BoardItemData);
             Reset();
             ObjectHid?.Invoke(this);
         }

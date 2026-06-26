@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c300eeebe6d4b7682987c33cbec0dab, type: 3}
-  m_Name: LevelObjectiveService
+  m_Name: ObjectiveService
   m_EditorClassIdentifier: Assembly-CSharp::Match3.LevelSystem.LevelObjectiveService
