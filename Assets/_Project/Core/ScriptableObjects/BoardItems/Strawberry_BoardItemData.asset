@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b6fa86db89f48f8b2ed384743414d5c, type: 3}
-  m_Name: YellowSquare_BoardItemData
+  m_Name: Strawberry_BoardItemData
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.TileTypeData
-  tileName: Yellow Square
-  itemSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  representingColor: {r: 1, g: 1, b: 0, a: 1}
+  tileName: Strawberry
+  itemSprite: {fileID: 21300000, guid: 140169fe467b8b649aa2541e0c8d6c09, type: 3}
+  representingColor: {r: 1, g: 0.1764706, b: 0.1764706, a: 1}
   setRendererColor: 1
