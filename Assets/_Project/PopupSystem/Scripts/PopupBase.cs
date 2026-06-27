@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,27 +8,37 @@ namespace Match3.PopupSystem
     public abstract class PopupBase : MonoBehaviour
     {
         [SerializeField] private PopupService popupService;
+        [SerializeField] private PopupAnimationConfig popupAnimationConfig;
         [SerializeField] private Canvas canvas;
+        [SerializeField] private RectTransform contentRootTransform;
         [SerializeField] private Button closeButton;
         [SerializeField] private Button backdrop;
 
         public void Open()
         {
-            OnPopupOpen();
-            canvas.enabled = true;
+            BeforePopupOpen();
+            contentRootTransform.localScale = Vector3.one * popupAnimationConfig.StartScaleAtOpen;
+            contentRootTransform.DOScale(1f, popupAnimationConfig.OpenTime)
+                .SetEase(popupAnimationConfig.OpenEase)
+                .OnComplete(() => { canvas.enabled = true; });
         }
 
         private void Close()
         {
-            canvas.enabled = false;
-            OnPopupClosed();
+            contentRootTransform.DOScale(popupAnimationConfig.TargetScaleAtClose, popupAnimationConfig.CloseTime)
+                .SetEase(popupAnimationConfig.CloseEase)
+                .OnComplete(() =>
+                {
+                    canvas.enabled = false;
+                    AfterPopupClosed();
+                });
         }
 
-        protected virtual void OnPopupOpen()
+        protected virtual void BeforePopupOpen()
         {
         }
 
-        protected virtual void OnPopupClosed()
+        protected virtual void AfterPopupClosed()
         {
         }
 
