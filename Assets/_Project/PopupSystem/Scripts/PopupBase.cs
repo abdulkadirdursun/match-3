@@ -9,6 +9,7 @@ namespace Match3.PopupSystem
     {
         [SerializeField] private PopupService popupService;
         [SerializeField] private PopupAnimationConfig popupAnimationConfig;
+        [Header("Components")]
         [SerializeField] private Canvas canvas;
         [SerializeField] private RectTransform contentRootTransform;
         [SerializeField] private Button closeButton;
@@ -23,7 +24,7 @@ namespace Match3.PopupSystem
                 .OnComplete(() => { canvas.enabled = true; });
         }
 
-        private void Close()
+        protected void Close()
         {
             contentRootTransform.DOScale(popupAnimationConfig.TargetScaleAtClose, popupAnimationConfig.CloseTime)
                 .SetEase(popupAnimationConfig.CloseEase)
@@ -42,6 +43,14 @@ namespace Match3.PopupSystem
         {
         }
 
+        protected virtual void RegisterButtonEvents()
+        {
+        }
+
+        protected virtual void UnregisterButtonEvents()
+        {
+        }
+
 
         #region MonoBehaviour Methods
 
@@ -50,6 +59,7 @@ namespace Match3.PopupSystem
             popupService.RegisterPopup(this);
             closeButton?.onClick.AddListener(Close);
             backdrop?.onClick.AddListener(Close);
+            RegisterButtonEvents();
         }
 
         private void Start()
@@ -62,6 +72,7 @@ namespace Match3.PopupSystem
             popupService.UnregisterPopup(this);
             closeButton?.onClick.RemoveListener(Close);
             backdrop?.onClick.RemoveListener(Close);
+            UnregisterButtonEvents();
         }
 
         #endregion
