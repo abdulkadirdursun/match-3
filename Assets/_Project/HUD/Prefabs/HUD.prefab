@@ -1118,6 +1118,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3195218802519590970, guid: 67e75756956f3444d8d8ea030dcfff0e, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 61ce447df1b8f364fbef31ce61186e21, type: 2}
+    - target: {fileID: 3680395080238219163, guid: 67e75756956f3444d8d8ea030dcfff0e, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3680395080238219163, guid: 67e75756956f3444d8d8ea030dcfff0e, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3680395080238219163, guid: 67e75756956f3444d8d8ea030dcfff0e, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1239,7 +1255,7 @@ PrefabInstance:
     - target: {fileID: 5943542692528726072, guid: 9abce1686e77f8749960081ef335fd7d, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+      objectReference: {fileID: -7229903153109956130, guid: de3509995e565d64d94901a67345237b, type: 2}
     - target: {fileID: 5943542692528726072, guid: 9abce1686e77f8749960081ef335fd7d, type: 3}
       propertyPath: m_VerticalAlignment
       value: 512
