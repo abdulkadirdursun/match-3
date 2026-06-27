@@ -22,8 +22,6 @@ namespace Match3.Core
         {
             BoardItemData = boardItemData;
             spriteRenderer.sprite = boardItemData.ItemSprite;
-            spriteRenderer.color = boardItemData.SetRendererColor ? boardItemData.RepresentingColor : Color.white;
-
             Show();
         }
 

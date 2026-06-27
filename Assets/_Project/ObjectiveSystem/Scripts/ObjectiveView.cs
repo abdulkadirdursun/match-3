@@ -15,7 +15,6 @@ namespace Match3.ObjectiveSystem
         {
             if (objectiveService.TargetItemData == null) return;
             objectiveImage.sprite = objectiveService.TargetItemData.ItemSprite;
-            objectiveImage.color = objectiveService.TargetItemData.RepresentingColor;
             objectiveAmountLabel.text = $"x{objectiveService.RemainingTargetAmount}";
         }
 
