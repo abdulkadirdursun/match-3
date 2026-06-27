@@ -18,10 +18,10 @@ namespace Match3.PopupSystem
         public void Open()
         {
             BeforePopupOpen();
+            canvas.enabled = true;
             contentRootTransform.localScale = Vector3.one * popupAnimationConfig.StartScaleAtOpen;
             contentRootTransform.DOScale(1f, popupAnimationConfig.OpenTime)
-                .SetEase(popupAnimationConfig.OpenEase)
-                .OnComplete(() => { canvas.enabled = true; });
+                .SetEase(popupAnimationConfig.OpenEase);
         }
 
         protected void Close()
