@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad400202fc9046fcad97d8cd5182df86, type: 3}
   m_Name: PopupAnimationConfig
   m_EditorClassIdentifier: Assembly-CSharp::Match3.PopupSystem.PopupAnimationConfig
-  openTime: 0.5
+  openTime: 0.45
   openEase: 11
-  closeTime: 0.75
+  closeTime: 0.55
   closeEase: 26
   startScaleAtOpen: 0.7
   targetScaleAtClose: 0.65
