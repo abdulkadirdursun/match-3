@@ -26,7 +26,8 @@ namespace Match3.SaveSystem
         public void LoadData()
         {
             if (!File.Exists(_filePath)) return;
-            var json = File.ReadAllText(_filePath);
+            var encrypted = File.ReadAllText(_filePath);
+            var json = Cryptography.Decrypt(encrypted);
             data = JsonUtility.FromJson<T>(json);
             IsLoaded = true;
         }
@@ -34,7 +35,8 @@ namespace Match3.SaveSystem
         public void SaveData()
         {
             var json = JsonUtility.ToJson(data);
-            File.WriteAllText(_filePath, json);
+            var encrypted = Cryptography.Encrypt(json);
+            File.WriteAllText(_filePath, encrypted);
         }
 
         public void Delete()
