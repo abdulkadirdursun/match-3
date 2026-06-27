@@ -4,13 +4,14 @@ using UnityEngine.UI;
 
 namespace Match3.PopupSystem
 {
-    [RequireComponent(typeof(Canvas))]
+    [RequireComponent(typeof(Canvas), typeof(CanvasGroup))]
     public abstract class PopupBase : MonoBehaviour
     {
         [SerializeField] private PopupService popupService;
         [SerializeField] private PopupAnimationConfig popupAnimationConfig;
         [Header("Components")]
         [SerializeField] private Canvas canvas;
+        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform contentRootTransform;
         [SerializeField] private Button closeButton;
         [SerializeField] private Button backdrop;
@@ -18,14 +19,20 @@ namespace Match3.PopupSystem
         public void Open()
         {
             BeforePopupOpen();
+            canvasGroup.interactable = false;
             canvas.enabled = true;
             contentRootTransform.localScale = Vector3.one * popupAnimationConfig.StartScaleAtOpen;
             contentRootTransform.DOScale(1f, popupAnimationConfig.OpenTime)
-                .SetEase(popupAnimationConfig.OpenEase);
+                .SetEase(popupAnimationConfig.OpenEase)
+                .OnComplete(() =>
+                {
+                    canvasGroup.interactable = true;
+                });
         }
 
         protected void Close()
         {
+            canvasGroup.interactable = false;
             contentRootTransform.DOScale(popupAnimationConfig.TargetScaleAtClose, popupAnimationConfig.CloseTime)
                 .SetEase(popupAnimationConfig.CloseEase)
                 .OnComplete(() =>

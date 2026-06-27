@@ -889,6 +889,11 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 8560861764504019349, guid: 6f57bef0527ed2040a448d97bbc0f93d, type: 3}
   m_PrefabInstance: {fileID: 7222562828038145985}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &7456990403985775071 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 236227751499406878, guid: 6f57bef0527ed2040a448d97bbc0f93d, type: 3}
+  m_PrefabInstance: {fileID: 7222562828038145985}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8081100965819592227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1449706233032976866, guid: 6f57bef0527ed2040a448d97bbc0f93d, type: 3}
@@ -909,6 +914,7 @@ MonoBehaviour:
   popupService: {fileID: 11400000, guid: d34834b93463a964c88159462febb2b9, type: 2}
   popupAnimationConfig: {fileID: 11400000, guid: 367b81e18b4ba9c4483a10bdcaeddad2, type: 2}
   canvas: {fileID: 1366271611822138964}
+  canvasGroup: {fileID: 7456990403985775071}
   contentRootTransform: {fileID: 8937955664102334737}
   closeButton: {fileID: 0}
   backdrop: {fileID: 0}
