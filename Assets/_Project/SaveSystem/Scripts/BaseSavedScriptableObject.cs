@@ -9,32 +9,34 @@ namespace Match3.SaveSystem
         public abstract void Load();
         public abstract void Reset();
     }
-    
+
     public class BaseSavedScriptableObject<T> : BaseSavedScriptableObject where T : class
     {
         [SerializeField] private SavedObject<T> defaultValues;
 
-        protected SavedObject<T> SavedObject { get; private set; }
+        private SavedObject<T> _savedObject;
+
+        protected T Data => _savedObject.IsLoaded ? _savedObject.data : default;
 
         public override void Initialize()
         {
-            SavedObject = new SavedObject<T>(name);
-            if (SavedObject.IsLoaded) return;
-            SavedObject.data = defaultValues.CopyData();
-            SavedObject.SaveData();
+            _savedObject = new SavedObject<T>(name);
+            if (_savedObject.IsLoaded) return;
+            _savedObject.data = defaultValues.CopyData();
+            _savedObject.SaveData();
         }
 
-        public override void Save() => SavedObject?.SaveData();
-        public override void Load() => SavedObject?.LoadData();
+        public override void Save() => _savedObject?.SaveData();
+        public override void Load() => _savedObject?.LoadData();
 
         public override void Reset()
         {
-            SavedObject?.Delete();
-            SavedObject = new SavedObject<T>(name)
+            _savedObject?.Delete();
+            _savedObject = new SavedObject<T>(name)
             {
                 data = defaultValues.CopyData()
             };
-            SavedObject.SaveData();
+            _savedObject.SaveData();
         }
     }
 }
