@@ -17,8 +17,11 @@ namespace Match3.PopupSystem
         [SerializeField] private Button closeButton;
         [SerializeField] private Button backdrop;
 
-        public void Open()
+        private event Action OnPopupClosed;
+
+        public void Open(Action onPopupClosed)
         {
+            OnPopupClosed = onPopupClosed;
             BeforePopupOpen();
             canvasGroup.interactable = false;
             canvas.enabled = true;
@@ -37,6 +40,8 @@ namespace Match3.PopupSystem
                 {
                     canvas.enabled = false;
                     AfterPopupClosed();
+                    OnPopupClosed?.Invoke();
+                    OnPopupClosed = null;
                 });
         }
 

@@ -27,7 +27,7 @@ namespace Match3.LevelSystem
             boardItemSpawner.SpawnBoardItems();
         }
 
-        public void StartNewLevel()
+        private void StartNewLevel()
         {
             levelProgressData.IncreaseLevel();
             StartTheLevel();
@@ -35,7 +35,7 @@ namespace Match3.LevelSystem
 
         private void OnLevelComplete()
         {
-            popupService.ShowPopup<LevelCompletePopup>();
+            popupService.ShowPopup<LevelCompletePopup>(StartNewLevel);
         }
 
         private void CleanTheLevel()

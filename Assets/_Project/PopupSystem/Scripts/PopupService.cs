@@ -9,7 +9,7 @@ namespace Match3.PopupSystem
     {
         private Dictionary<Type, PopupBase> _popupRegistry = new();
 
-        public void ShowPopup<T>() where T : PopupBase
+        public void ShowPopup<T>(Action onPopupClosed = null) where T : PopupBase
         {
             if (!_popupRegistry.TryGetValue(typeof(T), out var popup))
             {
@@ -17,7 +17,7 @@ namespace Match3.PopupSystem
                 return;
             }
 
-            popup.Open();
+            popup.Open(onPopupClosed);
         }
 
         public void RegisterPopup(PopupBase popup)
