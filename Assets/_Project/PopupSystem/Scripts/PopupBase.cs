@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,10 +25,7 @@ namespace Match3.PopupSystem
             contentRootTransform.localScale = Vector3.one * popupAnimationConfig.StartScaleAtOpen;
             contentRootTransform.DOScale(1f, popupAnimationConfig.OpenTime)
                 .SetEase(popupAnimationConfig.OpenEase)
-                .OnComplete(() =>
-                {
-                    canvasGroup.interactable = true;
-                });
+                .OnComplete(() => { canvasGroup.interactable = true; });
         }
 
         protected void Close()
@@ -71,7 +69,7 @@ namespace Match3.PopupSystem
 
         private void Start()
         {
-            Close();
+            canvas.enabled = false;
         }
 
         private void OnDisable()
