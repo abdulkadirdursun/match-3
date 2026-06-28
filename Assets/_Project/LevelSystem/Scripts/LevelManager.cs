@@ -8,6 +8,7 @@ namespace Match3.LevelSystem
 {
     public class LevelManager : MonoBehaviour
     {
+        [SerializeField] private LevelProgressData levelProgressData;
         [SerializeField] private LevelDatabase levelDatabase;
         [SerializeField] private ObjectiveService objectiveService;
         [SerializeField] private PopupService popupService;
@@ -16,12 +17,10 @@ namespace Match3.LevelSystem
         [SerializeField] private BoardItemSpawner boardItemSpawner;
         [SerializeField] private BoardResolver boardResolver;
 
-        public int CurrentLevel { get; private set; } = 1; //Temp variable
-
         public void StartTheLevel()
         {
             CleanTheLevel();
-            var levelData = levelDatabase.GetLoopLevelData(CurrentLevel);
+            var levelData = levelDatabase.GetLoopLevelData(levelProgressData.CurrentLevel);
             objectiveService.StartObjectiveProgress(levelData.TargetItemData, levelData.TargetAmount);
             gameBoardData.SetBoardSize(levelData.BoardSize);
             gameBoardCreator.GenerateBoard();
@@ -30,7 +29,7 @@ namespace Match3.LevelSystem
 
         public void StartNewLevel()
         {
-            CurrentLevel++;
+            levelProgressData.IncreaseLevel();
             StartTheLevel();
         }
 
