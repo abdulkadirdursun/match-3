@@ -8,6 +8,7 @@ namespace Match3.LevelSystem.UI
     public class LevelCompletePopup : PopupBase
     {
         [Header("Level Complete Popup")]
+        [SerializeField] private LevelProgressData levelProgressData;
         [SerializeField] private LevelManager levelManager; //Temp reference
         [SerializeField] private TMP_Text levelLabel;
         [SerializeField] private Button continueButton;
@@ -19,7 +20,7 @@ namespace Match3.LevelSystem.UI
 
         protected override void BeforePopupOpen()
         {
-            levelLabel.text = $"LEVEL {levelManager.CurrentLevel}";
+            levelLabel.text = $"LEVEL {levelProgressData.CurrentLevel}";
         }
 
         protected override void AfterPopupClosed()

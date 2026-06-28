@@ -918,6 +918,7 @@ MonoBehaviour:
   contentRootTransform: {fileID: 8937955664102334737}
   closeButton: {fileID: 0}
   backdrop: {fileID: 0}
+  levelProgressData: {fileID: 11400000, guid: b060e1577105e20438268417eb132178, type: 2}
   levelManager: {fileID: 0}
   levelLabel: {fileID: 8794596361753327885}
   continueButton: {fileID: 8307905057554775213}

@@ -521,7 +521,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.SaveSystem.SaveLoadManager
   autoSaveOnClose: 1
-  savedObjects: []
+  savedObjects:
+  - {fileID: 11400000, guid: b060e1577105e20438268417eb132178, type: 2}
 --- !u!4 &553984898
 Transform:
   m_ObjectHideFlags: 0
@@ -677,6 +678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 204d8c05cd693bd4291919909450e5cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.LevelSystem.LevelManager
+  levelProgressData: {fileID: 11400000, guid: b060e1577105e20438268417eb132178, type: 2}
   levelDatabase: {fileID: 11400000, guid: 3cdf7807aa83ca245bd42ece82827bee, type: 2}
   objectiveService: {fileID: 11400000, guid: d122fd3f0d850734782f91e184c45b92, type: 2}
   popupService: {fileID: 11400000, guid: d34834b93463a964c88159462febb2b9, type: 2}
