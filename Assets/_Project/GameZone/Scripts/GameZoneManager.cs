@@ -21,6 +21,9 @@ namespace Match3.GameZone
             var orthographicSize = Mathf.Max(orthographicSizeByHeight, orthographicSizeByWidth, gameZoneConfig.MinOrthographicSize);
             mainCamera.orthographicSize = orthographicSize;
 
+            var worldHeight = orthographicSize * 2f;
+            var worldWidth = worldHeight * mainCamera.aspect;
+            backgroundSpriteRenderer.size = new Vector2(worldWidth, worldHeight);
         }
     }
 }
