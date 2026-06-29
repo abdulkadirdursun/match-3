@@ -958,7 +958,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_26
+      name: icon_background
       rect:
         serializedVersion: 2
         x: 1513
@@ -967,7 +967,7 @@ TextureImporter:
         height: 172
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 64, y: 64, z: 64, w: 64}
       customData: 
       outline: []
       physicsShape: []
@@ -1156,7 +1156,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_35
+      name: header
       rect:
         serializedVersion: 2
         x: 71
@@ -1354,7 +1354,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_44
+      name: brown_detail_box
       rect:
         serializedVersion: 2
         x: 64
@@ -1376,7 +1376,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_45
+      name: brown_header
       rect:
         serializedVersion: 2
         x: 1117
@@ -1486,7 +1486,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_50
+      name: purple_header
       rect:
         serializedVersion: 2
         x: 1117
@@ -1552,7 +1552,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_53
+      name: blue_header
       rect:
         serializedVersion: 2
         x: 1117
@@ -1596,7 +1596,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_55
+      name: purple_detail_box
       rect:
         serializedVersion: 2
         x: 64
@@ -1706,7 +1706,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_60
+      name: blue_detail_box
       rect:
         serializedVersion: 2
         x: 64
@@ -2014,7 +2014,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_74
+      name: brown
       rect:
         serializedVersion: 2
         x: 64
@@ -2036,7 +2036,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_75
+      name: purple
       rect:
         serializedVersion: 2
         x: 346
@@ -2058,7 +2058,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI-pack_Sprite_1_76
+      name: blue
       rect:
         serializedVersion: 2
         x: 628
@@ -2200,7 +2200,6 @@ TextureImporter:
       UI-pack_Sprite_1_23: 7693597132497734403
       UI-pack_Sprite_1_24: -2056210662512102409
       UI-pack_Sprite_1_25: -3216912064481204161
-      UI-pack_Sprite_1_26: -2870524360630259796
       UI-pack_Sprite_1_27: 8455273021075522382
       UI-pack_Sprite_1_28: 5412813295618960320
       UI-pack_Sprite_1_29: 8671853037640039452
@@ -2210,7 +2209,6 @@ TextureImporter:
       UI-pack_Sprite_1_32: -4706323772729162963
       UI-pack_Sprite_1_33: 2813384237782223688
       UI-pack_Sprite_1_34: 5195824577459950565
-      UI-pack_Sprite_1_35: -1322464374932762594
       UI-pack_Sprite_1_36: 3288187814335824193
       UI-pack_Sprite_1_37: 141353405688747159
       UI-pack_Sprite_1_38: 2637422141927586871
@@ -2220,25 +2218,19 @@ TextureImporter:
       UI-pack_Sprite_1_41: -5961788431887473453
       UI-pack_Sprite_1_42: -4136206578373429072
       UI-pack_Sprite_1_43: -8008060877100151540
-      UI-pack_Sprite_1_44: -1541865002599254229
-      UI-pack_Sprite_1_45: -1996936005633665729
       UI-pack_Sprite_1_46: -4441273924919490741
       UI-pack_Sprite_1_47: 7215687026137024008
       UI-pack_Sprite_1_48: 1901882895746542186
       UI-pack_Sprite_1_49: 7484170088645595085
       UI-pack_Sprite_1_5: 1744928342973977704
-      UI-pack_Sprite_1_50: 744457683378154479
       UI-pack_Sprite_1_51: -2989345837320457496
       UI-pack_Sprite_1_52: 6841100256711490664
-      UI-pack_Sprite_1_53: -2259933958513438437
       UI-pack_Sprite_1_54: -4668685142620104677
-      UI-pack_Sprite_1_55: -5680990995697710469
       UI-pack_Sprite_1_56: -1322916990549689837
       UI-pack_Sprite_1_57: -8902363998838629117
       UI-pack_Sprite_1_58: 8129546141101418081
       UI-pack_Sprite_1_59: -6515249099007052161
       UI-pack_Sprite_1_6: -8458501898828234976
-      UI-pack_Sprite_1_60: 4293372491879573125
       UI-pack_Sprite_1_61: -8550149856088595828
       UI-pack_Sprite_1_62: -4521752403154854233
       UI-pack_Sprite_1_63: -9015037652471460838
@@ -2253,15 +2245,23 @@ TextureImporter:
       UI-pack_Sprite_1_71: 7952325421575550187
       UI-pack_Sprite_1_72: -2468282928631217810
       UI-pack_Sprite_1_73: -6366890718995276187
-      UI-pack_Sprite_1_74: 32978900350387816
-      UI-pack_Sprite_1_75: -5696031133070807526
-      UI-pack_Sprite_1_76: 4294396834851167543
       UI-pack_Sprite_1_77: -1452040262866815692
       UI-pack_Sprite_1_78: 8580286285322991341
       UI-pack_Sprite_1_8: 9136243195103690455
       UI-pack_Sprite_1_80: 4919465289085303430
       UI-pack_Sprite_1_9: 6344727610479804966
+      blue: 4294396834851167543
+      blue_detail_box: 4293372491879573125
+      blue_header: -2259933958513438437
+      brown: 32978900350387816
+      brown_detail_box: -1541865002599254229
+      brown_header: -1996936005633665729
       close_button: 7887720934130920627
+      header: -1322464374932762594
+      icon_background: -2870524360630259796
+      purple: -5696031133070807526
+      purple_detail_box: -5680990995697710469
+      purple_header: 744457683378154479
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
