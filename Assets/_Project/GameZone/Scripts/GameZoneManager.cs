@@ -15,10 +15,12 @@ namespace Match3.GameZone
         {
             Vector2 boardSize = new Vector2(gameBoardData.BoardSize.x, gameBoardData.BoardSize.y) * boardConfig.CellSize;
 
-            var cameraSizeByHeight = boardSize.y * 0.5f + (2f * gameZoneConfig.BoardAreaPadding);
-            var cameraSizeByWidth = (boardSize.x * 0.5f) / mainCamera.aspect + (2f * gameZoneConfig.BoardAreaPadding);
+            var orthographicSizeByHeight = boardSize.y * 0.5f + (2f * gameZoneConfig.BoardAreaPadding);
+            var orthographicSizeByWidth = (boardSize.x * 0.5f) / mainCamera.aspect + (2f * gameZoneConfig.BoardAreaPadding);
 
-            mainCamera.orthographicSize = Mathf.Max(cameraSizeByHeight, cameraSizeByWidth, gameZoneConfig.MinOrthographicSize);
+            var orthographicSize = Mathf.Max(orthographicSizeByHeight, orthographicSizeByWidth, gameZoneConfig.MinOrthographicSize);
+            mainCamera.orthographicSize = orthographicSize;
+
         }
     }
 }
