@@ -19,9 +19,11 @@ namespace Match3.Core
         private CancellationTokenSource _cancellationTokenSource;
         private bool _resolving;
         private bool _boardDirty;
+        private bool _swapping;
 
         public void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
+            if (_swapping) return;
             SwapCellItemsAsync(originCell, movedCell).Forget();
         }
 
@@ -74,6 +76,7 @@ namespace Match3.Core
             }
             finally
             {
+                _swapping = false;
             }
         }
 
