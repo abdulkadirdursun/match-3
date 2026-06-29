@@ -119,6 +119,56 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &93405544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 93405545}
+  - component: {fileID: 93405546}
+  m_Layer: 0
+  m_Name: GameZoneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &93405545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93405544}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 326648759}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &93405546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93405544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7ac22f860ecfd4b9a31a4384486deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Match3.GameZone.GameZoneManager
+  gameZoneConfig: {fileID: 11400000, guid: 4adc58ac2b7b9ba45bd08433450d4e63, type: 2}
+  gameBoardData: {fileID: 11400000, guid: c1e507533414e4a43af0ede3f001cd71, type: 2}
+  boardConfig: {fileID: 11400000, guid: ae07a8042161f7b4fbf8bbd50a91bc75, type: 2}
+  mainCamera: {fileID: 330585545}
+  backgroundSpriteRenderer: {fileID: 326648758}
 --- !u!1 &326648757
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,12 +253,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326648757}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 93405545}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
@@ -776,6 +826,7 @@ MonoBehaviour:
   gameBoardCreator: {fileID: 386429550}
   boardItemSpawner: {fileID: 386429548}
   boardResolver: {fileID: 386429551}
+  gameZoneManager: {fileID: 93405546}
 --- !u!4 &1394849391
 Transform:
   m_ObjectHideFlags: 0
@@ -1183,9 +1234,9 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1689181913}
-  - {fileID: 326648759}
   - {fileID: 553984898}
   - {fileID: 795973411}
+  - {fileID: 93405545}
   - {fileID: 1394849391}
   - {fileID: 386429547}
   - {fileID: 4531538272056035415}

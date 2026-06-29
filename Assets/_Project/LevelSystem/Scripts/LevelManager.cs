@@ -1,4 +1,5 @@
 using Match3.Core;
+using Match3.GameZone;
 using Match3.LevelSystem.UI;
 using Match3.ObjectiveSystem;
 using Match3.PopupSystem;
@@ -16,6 +17,7 @@ namespace Match3.LevelSystem
         [SerializeField] private GameBoardCreator gameBoardCreator;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
         [SerializeField] private BoardResolver boardResolver;
+        [SerializeField] private GameZoneManager gameZoneManager;
 
         public void StartTheLevel()
         {
@@ -23,6 +25,7 @@ namespace Match3.LevelSystem
             var levelData = levelDatabase.GetLoopLevelData(levelProgressData.CurrentLevel);
             objectiveService.StartObjectiveProgress(levelData.TargetItemData, levelData.TargetAmount);
             gameBoardData.SetBoardSize(levelData.BoardSize);
+            gameZoneManager.Initialize();
             gameBoardCreator.GenerateBoard();
             boardItemSpawner.SpawnBoardItems();
         }
