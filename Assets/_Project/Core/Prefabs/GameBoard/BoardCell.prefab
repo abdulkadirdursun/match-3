@@ -137,3 +137,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Match3.Core.GameBoard.BoardCell
   cellTransform: {fileID: 6166516271578329486}
+  backgroundObject: {fileID: 5274531334792278410}
