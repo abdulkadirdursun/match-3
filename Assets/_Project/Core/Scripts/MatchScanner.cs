@@ -7,7 +7,6 @@ namespace Match3.Core
     public class MatchScanner : MonoBehaviour
     {
         [SerializeField] private GameBoardData gameBoardData;
-        [SerializeField] private GameplayData gameplayData;
 
         private static readonly Vector2Int[] Directions = new[]
         {
@@ -29,7 +28,7 @@ namespace Match3.Core
         {
             var result = new HashSet<BoardCell>();
             var visited = new HashSet<Vector2Int>();
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
             for (int y = 0; y < boardSize.y; y++)
             {
                 for (int x = 0; x < boardSize.x; x++)
@@ -61,7 +60,7 @@ namespace Match3.Core
         {
             originCell.TryGetBoardItemData(out var targetItemData);
 
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
 
             var blob = new HashSet<BoardCell>();
             var visited = new HashSet<Vector2Int>();
@@ -108,7 +107,7 @@ namespace Match3.Core
 
         public bool HasValidMove()
         {
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
             for (int y = 0; y < boardSize.y; y++)
             {
                 for (int x = 0; x < boardSize.x; x++)

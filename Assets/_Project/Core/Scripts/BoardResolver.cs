@@ -1,70 +1,86 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Match3.Core.Helpers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Match3.Core
 {
     public class BoardResolver : MonoBehaviour
     {
         [SerializeField] private GameBoardData gameBoardData;
-        [SerializeField] private GameplayData gameplayData;
-        [SerializeField] private BoardAnimationConfig boardAnimationConfig;
         [SerializeField] private MatchScanner matchScanner;
         [SerializeField] private BoardItemSpawner boardItemSpawner;
 
         private const int MaxMatchCheckIteration = 64;
-        private CancellationTokenSource _cancellationTokenSource = new();
+        private CancellationTokenSource _cancellationTokenSource;
         private bool _resolving;
         private bool _boardDirty;
+        private bool _swapping;
 
-        public async void SwapCellItems(BoardCell originCell, BoardCell movedCell)
+        public void SwapCellItems(BoardCell originCell, BoardCell movedCell)
         {
-            var originCellItem = originCell.BoardItem;
-            var movedCellItem = movedCell.BoardItem;
-            originCell.SetItem(movedCellItem);
-            movedCell.SetItem(originCellItem);
-
-            if (!matchScanner.HasMatchAt(originCell.Coordinates)
-                && !matchScanner.HasMatchAt(movedCell.Coordinates))
-            {
-                originCellItem.BounceToAndBack(
-                    movedCell.WorldPos,
-                    originCell.WorldPos);
-                movedCellItem.BounceToAndBack(
-                    originCell.WorldPos,
-                    movedCell.WorldPos);
-                originCell.SetItem(originCellItem);
-                movedCell.SetItem(movedCellItem);
-            }
-            else
-            {
-                Tween[] tweens = new Tween[]
-                {
-                    originCellItem.MoveToPos(movedCell.WorldPos),
-                    movedCellItem.MoveToPos(originCell.WorldPos)
-                };
-                var token = _cancellationTokenSource.Token;
-                await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
-                if (token.IsCancellationRequested) return;
-                ResolveMatches();
-            }
+            if (_swapping) return;
+            SwapCellItemsAsync(originCell, movedCell).Forget();
         }
 
         public void AbortTasks()
         {
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
-            _cancellationTokenSource = new();
+            RefreshCancellationTokenSource();
             _resolving = false;
             _boardDirty = false;
+            _swapping = false;
         }
 
-        private async void ResolveMatches()
+        private async UniTaskVoid SwapCellItemsAsync(BoardCell originCell, BoardCell movedCell)
+        {
+            _swapping = true;
+            try
+            {
+                var token = _cancellationTokenSource.Token;
+                var originCellItem = originCell.BoardItem;
+                var movedCellItem = movedCell.BoardItem;
+                originCell.SetItem(movedCellItem);
+                movedCell.SetItem(originCellItem);
+
+                if (!matchScanner.HasMatchAt(originCell.Coordinates)
+                    && !matchScanner.HasMatchAt(movedCell.Coordinates))
+                {
+                    UniTask[] tasks = new[]
+                    {
+                        originCellItem.BounceToAndBack(movedCell.WorldPos, originCell.WorldPos).ToUniTask(cancellationToken: token),
+                        movedCellItem.BounceToAndBack(originCell.WorldPos, movedCell.WorldPos).ToUniTask(cancellationToken: token)
+                    };
+                    await UniTask.WhenAll(tasks);
+                    originCell.SetItem(originCellItem);
+                    movedCell.SetItem(movedCellItem);
+                }
+                else
+                {
+                    UniTask[] tasks = new[]
+                    {
+                        originCellItem.MoveToPos(movedCell.WorldPos).ToUniTask(cancellationToken: token),
+                        movedCellItem.MoveToPos(originCell.WorldPos).ToUniTask(cancellationToken: token)
+                    };
+                    await UniTask.WhenAll(tasks);
+                    ResolveMatchesAsync().Forget();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                _swapping = false;
+            }
+        }
+
+        private async UniTaskVoid ResolveMatchesAsync()
         {
             if (_resolving)
             {
@@ -72,55 +88,64 @@ namespace Match3.Core
                 return;
             }
 
-            var token = _cancellationTokenSource.Token;
-
             _resolving = true;
-            var tweens = new List<Tween>();
-            for (int i = 0; i < MaxMatchCheckIteration; i++)
+            try
             {
-                var matches = matchScanner.FindAllMatches();
-                if (matches.Count == 0)
+                var token = _cancellationTokenSource.Token;
+                var tasks = new List<UniTask>();
+                for (int i = 0; i < MaxMatchCheckIteration; i++)
                 {
-                    if (_boardDirty)
+                    var matches = matchScanner.FindAllMatches();
+                    if (matches.Count == 0)
                     {
-                        _boardDirty = false;
-                        continue;
+                        if (_boardDirty)
+                        {
+                            _boardDirty = false;
+                            continue;
+                        }
+
+                        break;
                     }
 
-                    break;
-                }
+                    tasks.Clear();
+                    foreach (var cell in matches)
+                    {
+                        var item = cell.DetachItem();
+                        tasks.Add(item.BreakItem().ToUniTask(cancellationToken: token));
+                    }
 
-                tweens.Clear();
-                foreach (var cell in matches)
-                {
-                    var item = cell.DetachItem();
-                    tweens.Add(item.HideRequest());
-                }
+                    if (tasks.Count > 0) await UniTask.WhenAll(tasks);
 
-                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
-                if (token.IsCancellationRequested) return;
+                    tasks.Clear();
+                    foreach (var collapseTween in CollapseBoard())
+                        tasks.Add(collapseTween.ToUniTask(cancellationToken: token));
+                    foreach (var refillTween in boardItemSpawner.RefillEmptyCells())
+                        tasks.Add(refillTween.ToUniTask(cancellationToken: token));
 
-                tweens.Clear();
-                tweens.AddRange(CollapseBoard());
-                tweens.AddRange(boardItemSpawner.RefillEmptyCells());
-                if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
-                if (token.IsCancellationRequested) return;
+                    if (tasks.Count > 0) await UniTask.WhenAll(tasks);
 
-                if (!matchScanner.HasValidMove())
-                {
-                    tweens = ShuffleBoard();
-                    if (tweens.Count > 0) await Task.WhenAll(tweens.Select(t => t.AsyncWaitForCompletion())).WaitAsync(token);
-                    if (token.IsCancellationRequested) return;
+                    if (!matchScanner.HasValidMove())
+                    {
+                        tasks.Clear();
+                        foreach (var shuffleTween in ShuffleBoard())
+                            tasks.Add(shuffleTween.ToUniTask(cancellationToken: token));
+                        if (tasks.Count > 0) await UniTask.WhenAll(tasks);
+                    }
                 }
             }
-
-            _resolving = false;
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                _resolving = false;
+            }
         }
 
         private List<Tween> CollapseBoard()
         {
             var tweens = new List<Tween>();
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
 
             for (int x = 0; x < boardSize.x; x++)
             {
@@ -288,5 +313,19 @@ namespace Match3.Core
 
             return selectedCells;
         }
+
+        private void RefreshCancellationTokenSource()
+        {
+            _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+        }
+
+        #region MonoBehaviour Methods
+
+        private void Awake()
+        {
+            RefreshCancellationTokenSource();
+        }
+
+        #endregion
     }
 }

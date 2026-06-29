@@ -5,6 +5,7 @@ namespace Match3.Core
     public class BoardCell : MonoBehaviour
     {
         [SerializeField] private Transform cellTransform;
+        [SerializeField] private GameObject backgroundObject;
 
         public BoardItem BoardItem { get; private set; }
         public Vector2Int Coordinates { get; private set; }
@@ -44,11 +45,13 @@ namespace Match3.Core
             Coordinates = coords;
             cellTransform.localScale = Vector3.one * scale;
             cellTransform.position = position;
+            backgroundObject.SetActive(true);
         }
 
         public void Reset()
         {
             BoardItem = null;
+            backgroundObject.SetActive(false);
         }
 
         #region MonoBehaviour Methods

@@ -5,7 +5,6 @@ namespace Match3.Core
 {
     public class GameBoardCreator : MonoBehaviour
     {
-        [SerializeField] private GameplayData gameplayData;
         [SerializeField] private GameBoardData gameBoardData;
         [SerializeField] private BoardConfig boardConfig;
         [SerializeField] private Transform maskTransform;
@@ -20,7 +19,7 @@ namespace Match3.Core
         {
             _cellPool ??= new ObjectPool<BoardCell>(boardCellPrefab, transform, startPoolSize, maxPoolSize, onRelease: OnRelease);
             _cellPool.ReleaseAll();
-            var boardSize = gameplayData.BoardSize;
+            var boardSize = gameBoardData.BoardSize;
             var cellSize = boardConfig.CellSize;
             maskTransform.localScale = new Vector3(boardSize.x * cellSize, boardSize.y * cellSize, 1f);
             var halfExtendX = (boardSize.x - 1) * cellSize * 0.5f;
